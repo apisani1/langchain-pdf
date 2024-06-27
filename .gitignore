@@ -3,3 +3,9 @@ __pycache__
 .venv
 instance
 .DS_Store
+.vscode/
+__pycache__/
+.flake8
+.isort.cfg
+.mypy.ini
+langchainX.log
