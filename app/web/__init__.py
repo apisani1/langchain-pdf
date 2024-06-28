@@ -2,7 +2,7 @@ from flask import Flask
 from flask_cors import CORS
 
 from app.web.db import db, init_db_command
-from app.web.db import models
+# from app.web.db import models
 from app.celery import celery_init_app
 from app.web.config import Config
 from app.web.hooks import load_logged_in_user, handle_error, add_headers

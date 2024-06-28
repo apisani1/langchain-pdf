@@ -30,7 +30,7 @@ def create_embeddings_for_pdf(pdf_id: str, pdf_path: str):
     create_embeddings_for_pdf('123456', '/path/to/pdf')
     """
     docs = load_document(
-        pdf_path, chunk_it=True, chunk_size=500, chunk_overlap=100, log_level=3
+        pdf_path, chunk_it=True, chunk_size=500, chunk_overlap=100,
     )
 
     vector_store.add_documents(docs)
