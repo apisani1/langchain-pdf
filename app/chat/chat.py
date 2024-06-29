@@ -1,4 +1,11 @@
+# from app.chat.models import ChatArgs
+# from app.chat.vector_stores.pinecone import build_retriever
+
+# def build_chat(chat_args: ChatArgs):
+#     retriever = build_retriever(chat_args)
+
 from app.chat.models import ChatArgs
+from app.chat.vector_stores.pinecone import build_retriever
 
 
 def build_chat(chat_args: ChatArgs):
@@ -13,4 +20,4 @@ def build_chat(chat_args: ChatArgs):
         chain = build_chat(chat_args)
     """
 
-    pass
+    retriever = build_retriever(chat_args)  # noqa
