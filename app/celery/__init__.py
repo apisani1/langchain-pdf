@@ -1,4 +1,4 @@
-from celery import (
+from celery import (  # type: ignore
     Celery,
     Task,
 )
