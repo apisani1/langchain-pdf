@@ -12,11 +12,6 @@
 #     os.getenv("PINECONE_INDEX_NAME"), embeddings
 # )
 
-# def build_retriever(chat_args):
-#     search_kwargs = {"filter": { "pdf_id": chat_args.pdf_id }}
-#     return vector_store.as_retriever(
-#         search_kwargs=search_kwargs
-#     )
 
 import os
 
@@ -32,5 +27,5 @@ vector_store = PineconeStore.connect(
 
 
 def build_retriever(chat_args: ChatArgs) -> BaseRetriever:
-    search_kwargs = {"filter": {"doc_id": chat_args.doc_id}}
+    search_kwargs = {"filter": {"doc_id": chat_args.pdf_id}}
     return vector_store.as_retriever(search_kwargs=search_kwargs)
