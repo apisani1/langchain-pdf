@@ -19,7 +19,7 @@ from app.chat.vector_stores.pinecone import vector_store
 from langchainX.document import load_document
 
 
-def create_embeddings_for_pdf(doc_id: str, file_path: str):
+def create_embeddings_for_pdf(doc_id: str, file_path: str, doc_name: str = ""):
     """
     Generate and store embeddings for the given document.
 
@@ -51,6 +51,7 @@ def create_embeddings_for_pdf(doc_id: str, file_path: str):
         doc.metadata = {
             "page": doc.metadata["page_number"],
             "doc_id": doc_id,
+            "source": doc_name,
         }
 
     vector_store.add_documents(docs, id_key="chunk_id")

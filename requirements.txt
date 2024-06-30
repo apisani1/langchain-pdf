@@ -22,3 +22,4 @@ unstructured
 unstructured[pdf]
 langchain
 langchain_openai
+langchain_experimental
