@@ -13,4 +13,4 @@ def build_llm(chat_args: ChatArgs) -> BaseChatModel:
         model_kwargs = chat_args.model_kwargs
     else:
         model_kwargs = {}
-    return get_chat(chat_name=chat_name, **model_kwargs)
+    return get_chat(chat_name=chat_name, streaming=chat_args.streaming, **model_kwargs)
