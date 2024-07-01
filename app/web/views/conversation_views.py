@@ -26,7 +26,7 @@ def create_conversation(pdf):
 @login_required
 @load_model(Conversation)
 def create_message(conversation):
-    input = request.json.get("input")
+    chat_input = request.json.get("input")
     streaming = request.args.get("stream", False)
 
     pdf = conversation.pdf
@@ -49,7 +49,13 @@ def create_message(conversation):
 
     if streaming:
         return Response(
-            stream_with_context(chat.stream(input)), mimetype="text/event-stream"
+            stream_with_context(chat.stream(chat_input)), mimetype="text/event-stream"
         )
     else:
-        return jsonify({"role": "assistant", "content": chat.run(input)})
+        # return jsonify({"role": "assistant", "content": chat.run(chat_input)})
+        return jsonify(
+            {
+                "role": "assistant",
+                "content": chat.invoke(input={"question": chat_input})["answer"],
+            }
+        )
