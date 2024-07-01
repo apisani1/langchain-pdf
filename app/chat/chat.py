@@ -18,11 +18,13 @@ def build_chat(chat_args: ChatArgs):
     """
 
     retriever = build_retriever(chat_args)
+    condense_question_llm = build_llm(chat_args, streaming=False)
     llm = build_llm(chat_args)
     memory = build_memory(chat_args)
 
     return StreamingConversationalRetrievalChain.from_llm(
         llm=llm,
+        condense_question_llm=condense_question_llm,
         retriever=retriever,
         memory=memory,
     )
