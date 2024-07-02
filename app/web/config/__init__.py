@@ -1,7 +1,17 @@
 import os
-from dotenv import load_dotenv
 
-load_dotenv()
+from dotenv import (
+    find_dotenv,
+    load_dotenv,
+)
+
+
+load_dotenv(find_dotenv(), override=True)
+
+print(">>>> Tracing: ", os.environ["LANGCHAIN_TRACING_V2"])
+print(">>>> API KEY: ", os.environ["LANGCHAIN_API_KEY"])
+print(">>>> Endpoint: ", os.environ["LANGCHAIN_ENDPOINT"])
+print(">>>> Project: ", os.environ["LANGCHAIN_PROJECT"])
 
 
 class Config:
