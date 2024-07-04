@@ -28,8 +28,8 @@ vector_store = PineconeStore.connect(
 
 
 def build_retriever(
-    chat_args: ChatArgs, search_kwargs: Optional[dict] = None, **kwargs
+    chat_args: ChatArgs, search_kwargs: Optional[dict] = None
 ) -> BaseRetriever:
     search_kwargs = search_kwargs or {}
     search_kwargs.update({"filter": {"doc_id": chat_args.pdf_id}})
-    return vector_store.as_retriever(search_kwargs=search_kwargs, **kwargs)
+    return vector_store.as_retriever(search_kwargs=search_kwargs)
