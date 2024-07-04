@@ -13,7 +13,7 @@ def build_llm(
 ) -> BaseChatModel:
     model_kwargs = model_kwargs or {}
     if "streaming" in kwargs:
-        streaming = kwargs.pop("streaming")
+        streaming = kwargs["streaming"]
     else:
         streaming = chat_args.streaming
-    return get_chat(chat_name=chat_name, streaming=streaming, **model_kwargs, **kwargs)
+    return get_chat(chat_name=chat_name, streaming=streaming, **model_kwargs)
