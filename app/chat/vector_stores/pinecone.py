@@ -14,6 +14,7 @@
 
 
 import os
+from typing import Optional
 
 from app.chat.models import ChatArgs
 from langchain.schema import BaseRetriever
@@ -26,6 +27,9 @@ vector_store = PineconeStore.connect(
 )
 
 
-def build_retriever(chat_args: ChatArgs) -> BaseRetriever:
-    search_kwargs = {"filter": {"doc_id": chat_args.pdf_id}}
-    return vector_store.as_retriever(search_kwargs=search_kwargs)
+def build_retriever(
+    chat_args: ChatArgs, search_kwargs: Optional[dict] = None, **kwargs
+) -> BaseRetriever:
+    search_kwargs = search_kwargs or {}
+    search_kwargs.update({"filter": {"doc_id": chat_args.pdf_id}})
+    return vector_store.as_retriever(search_kwargs=search_kwargs, **kwargs)
