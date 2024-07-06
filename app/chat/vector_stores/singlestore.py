@@ -8,6 +8,8 @@ from langchainX.store.singlestore import SingleStore
 
 singlestore_vector_store = SingleStore.connect(
     index_name=os.getenv("SINGLESTOREDB_TABLE"),
+    host=os.getenv("SINGLESTOREDB_HOST"),
+    database=os.getenv("SINGLESTOREDB_DATABASE"),
     id_key="chunk_id",
 )
 

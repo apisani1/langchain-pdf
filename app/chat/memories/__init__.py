@@ -1,8 +1,8 @@
 from functools import partial
 
-from .buffer_memory import buffer_memory_builder
-from .window_memory import window_buffer_memory_builder
-from .summary_memory import summary_buffer_memory_builder
+from .buffer_memory import buffer_memory_builder  # noqa: F401
+from .window_memory import window_buffer_memory_builder  # noqa: F401
+from .summary_memory import summary_buffer_memory_builder  # noqa: F401
 
 
 memory_map = {

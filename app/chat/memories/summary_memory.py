@@ -1,4 +1,4 @@
-from app.chat.llms.chat_model import build_llm
+from app.chat.llms.openai import build_openai_llm
 from app.chat.memories.histories.sql_history import SqlMessageHistory
 from app.chat.models import ChatArgs
 from langchain.memory import ConversationSummaryBufferMemory
@@ -11,7 +11,7 @@ def summary_buffer_memory_builder(
     model_kwargs: Optional[dict] = None,
     max_token_limit: int = 2000,
 ) -> ConversationSummaryBufferMemory:
-    summary_llm = build_llm(
+    summary_llm = build_openai_llm(
         chat_args=chat_args,
         chat_name=chat_name,
         model_kwargs=model_kwargs,
