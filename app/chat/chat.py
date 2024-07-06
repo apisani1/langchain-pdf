@@ -1,6 +1,6 @@
 from app.chat.chains.retrieval import StreamingConversationalRetrievalChain
 from app.chat.llms import llm_map
-from app.chat.llms.openai import build_openai_llm
+from app.chat.llms.chat_model import build_llm
 from app.chat.memories import memory_map
 from app.chat.models import ChatArgs
 from app.chat.score import random_component_by_score
@@ -47,7 +47,7 @@ def build_chat(chat_args: ChatArgs):
         memory=memory_name,
     )
 
-    condense_question_llm = build_openai_llm(chat_args, streaming=False)
+    condense_question_llm = build_llm(chat_args, streaming=False)
 
     return StreamingConversationalRetrievalChain.from_llm(
         llm=llm,

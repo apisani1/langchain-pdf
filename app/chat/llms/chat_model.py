@@ -5,7 +5,7 @@ from langchainX.model import get_chat
 from app.chat.models import ChatArgs
 
 
-def build_openai_llm(
+def build_llm(
     chat_args: ChatArgs,
     chat_name: str = "OpenAI",
     model_kwargs: Optional[dict] = None,
