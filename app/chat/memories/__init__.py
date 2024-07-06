@@ -1,3 +1,8 @@
-from .sql_memory import build_memory
+from .buffer_memory import buffer_memory_builder
+from .window_memory import window_buffer_memory_builder
 
-memory_map = {"sql_buffer_memory": build_memory}
+
+memory_map = {
+    "buffer_memory": buffer_memory_builder,
+    "window_memory": window_buffer_memory_builder,
+}
