@@ -10,7 +10,10 @@ from .singlestore import (  # noqa: F401
 )
 
 
-vector_stores = [pinecone_vector_store, singlestore_vector_store]
+vector_stores = [
+    pinecone_vector_store,
+    # singlestore_vector_store
+]
 
 retriever_map = {
     "pinecone_1": partial(pinecone_retriever_builder, search_kwargs={"k": 1}),

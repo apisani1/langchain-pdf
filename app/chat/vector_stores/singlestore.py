@@ -1,17 +1,19 @@
-import os
+import os   # noqa: F401
 from typing import Optional
 
 from app.chat.models import ChatArgs
 from langchain.schema import BaseRetriever
-from langchainX.store.singlestore import SingleStore
+from langchainX.store.singlestore import SingleStore  # noqa: F401
 
 
-singlestore_vector_store = SingleStore.connect(
-    index_name=os.getenv("SINGLESTOREDB_TABLE"),
-    host=os.getenv("SINGLESTOREDB_HOST"),
-    database=os.getenv("SINGLESTOREDB_DATABASE"),
-    id_key="chunk_id",
-)
+# singlestore_vector_store = SingleStore.connect(
+#     index_name=os.getenv("SINGLESTOREDB_TABLE"),
+#     host=os.getenv("SINGLESTOREDB_HOST"),
+#     database=os.getenv("SINGLESTOREDB_DATABASE"),
+#     id_key="chunk_id",
+# )
+
+singlestore_vector_store = None
 
 
 def singlestore_retriever_builder(
