@@ -15,7 +15,7 @@
 #     }
 #   vector_store.add_documents(docs)
 
-from app.chat.vector_stores.pinecone import vector_store
+from app.chat.vector_stores import vector_stores
 from langchainX.document import load_document
 
 
@@ -54,4 +54,5 @@ def create_embeddings_for_pdf(doc_id: str, file_path: str, doc_name: str = ""):
             "source": doc_name,
         }
 
-    vector_store.add_documents(docs, id_key="chunk_id")
+    for vector_store in vector_stores:
+        vector_store.add_documents(docs, id_key="chunk_id")
