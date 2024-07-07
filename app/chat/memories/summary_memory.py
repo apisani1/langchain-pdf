@@ -7,15 +7,14 @@ from typing import Optional
 
 def summary_buffer_memory_builder(
     chat_args: ChatArgs,
-    chat_name: str = "OpenAI",
     model_kwargs: Optional[dict] = None,
     max_token_limit: int = 2000,
 ) -> ConversationSummaryBufferMemory:
+    model_kwargs = model_kwargs or {}
     summary_llm = build_llm(
         chat_args=chat_args,
-        chat_name=chat_name,
-        model_kwargs=model_kwargs,
         streaming=False,
+        **model_kwargs,
     )
     return ConversationSummaryBufferMemory(
         chat_memory=SqlMessageHistory(conversation_id=chat_args.conversation_id),

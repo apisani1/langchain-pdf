@@ -1,0 +1,108 @@
+# To use VertexAI models you need to authenticate with your Google Cloud account.
+# run 'gcloud auth login' in your terminal
+
+llm:
+  - name: gpt-4
+    builder: build_llm
+    module: app.chat.llms.chat_model
+    params:
+      chat_name: OpenAI
+      model_name: gpt-4
+
+  - name: gpt-3.5-turbo
+    builder: build_llm
+    module: app.chat.llms.chat_model
+    params:
+      chat_name: OpenAI
+      model_name: gpt-3.5-turbo
+
+  - name: chat-bison
+    builder: build_llm
+    module: app.chat.llms.chat_model
+    params:
+      chat_name: VertexAI
+      model_name: chat-bison
+
+memory:
+  - name: buffer_memory
+    builder: buffer_memory_builder
+    module: app.chat.memories.buffer_memory
+
+  - name: window_memory_3
+    builder: window_buffer_memory_builder
+    module: app.chat.memories.window_memory
+    params:
+      k: 3
+
+  - name: window_memory_5
+    builder: window_buffer_memory_builder
+    module: app.chat.memories.window_memory
+    params:
+      k: 5
+
+  - name: window_memory_7
+    builder: window_buffer_memory_builder
+    module: app.chat.memories.window_memory
+    params:
+      k: 7
+
+  - name: summary_memory_1000
+    builder: summary_buffer_memory_builder
+    module: app.chat.memories.summary_memory
+    params:
+      max_token_limit: 1000
+
+  - name: summary_memory_2000
+    builder: summary_buffer_memory_builder
+    module: app.chat.memories.summary_memory
+    params:
+      max_token_limit: 2000
+
+  - name: summary_memory_3000
+    builder: summary_buffer_memory_builder
+    module: app.chat.memories.summary_memory
+    params:
+      max_token_limit: 3000
+
+retriever:
+  - name: pinecone_1
+    builder: pinecone_retriever_builder
+    module: app.chat.vector_stores.pinecone
+    params:
+      search_kwargs:
+        k: 1
+
+  - name: pinecone_2
+    builder: pinecone_retriever_builder
+    module: app.chat.vector_stores.pinecone
+    params:
+      search_kwargs:
+        k: 2
+
+  - name: pinecone_3
+    builder: pinecone_retriever_builder
+    module: app.chat.vector_stores.pinecone
+    params:
+      search_kwargs:
+        k: 3
+
+  # - name: singlestore_1
+  #   builder: singlestore_retriever_builder
+  #   module: app.chat.vector_stores.singlestore
+  #   params:
+  #     search_kwargs:
+  #       k: 1
+
+  # - name: singlestore_2
+  #   builder: singlestore_retriever_builder
+  #   module: app.chat.vector_stores.singlestore
+  #   params:
+  #     search_kwargs:
+  #       k: 2
+
+  # - name: singlestore_3
+  #   builder: singlestore_retriever_builder
+  #   module: app.chat.vector_stores.singlestore
+  #   params:
+  #     search_kwargs:
+  #       k: 3

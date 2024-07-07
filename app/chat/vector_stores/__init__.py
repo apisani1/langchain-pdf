@@ -1,13 +1,8 @@
-from functools import partial
+from pprint import pprint
 
-from .pinecone import (  # noqa: F401
-    pinecone_retriever_builder,
-    pinecone_vector_store,
-)
-from .singlestore import (  # noqa: F401
-    singlestore_retriever_builder,
-    singlestore_vector_store,
-)
+from ..config import chat_config
+from .pinecone import pinecone_vector_store
+from .singlestore import singlestore_vector_store  # noqa: F401
 
 
 vector_stores = [
@@ -15,11 +10,7 @@ vector_stores = [
     # singlestore_vector_store
 ]
 
-retriever_map = {
-    "pinecone_1": partial(pinecone_retriever_builder, search_kwargs={"k": 1}),
-    "pinecone_2": partial(pinecone_retriever_builder, search_kwargs={"k": 2}),
-    "pinecone_3": partial(pinecone_retriever_builder, search_kwargs={"k": 3}),
-    # "singlestore_1": partial(singlestore_retriever_builder, search_kwargs={"k": 1}),
-    # "singlestore_2": partial(singlestore_retriever_builder, search_kwargs={"k": 2}),
-    # "singlestore_3": partial(singlestore_retriever_builder, search_kwargs={"k": 3}),
-}
+
+retriever_map = chat_config.build_map("retriever")
+
+pprint(retriever_map)
