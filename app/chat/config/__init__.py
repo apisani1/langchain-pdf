@@ -18,7 +18,7 @@ class ChatConfig:
     def vector_store_map(self):
         return self._vector_store_map
 
-    def _build_embeddings(self):
+    def build_embeddings(self):
         embedding_map = {}
         for embedding in self._yaml_data["embedding"]:
             embedding_name = embedding["name"]
@@ -29,7 +29,7 @@ class ChatConfig:
             )
         self._embedding_map = embedding_map
 
-    def _build_vector_stores(self):
+    def build_vector_stores(self):
         self._vector_stores = []
         self._vector_store_map = {}
 

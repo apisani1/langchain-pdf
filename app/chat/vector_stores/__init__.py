@@ -3,8 +3,8 @@ from pprint import pprint
 from ..config import chat_config
 
 
-chat_config._build_embeddings()
-chat_config._build_vector_stores()
+chat_config.build_embeddings()
+chat_config.build_vector_stores()
 retriever_map = chat_config.build_map("retriever")
 
 
