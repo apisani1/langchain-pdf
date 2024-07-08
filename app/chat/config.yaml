@@ -64,11 +64,30 @@ memory:
     params:
       max_token_limit: 3000
 
+
+
+embedding:
+  - name: openai1
+    model: OpenAI
+
+  - name: openai2
+    model: OpenAI
+
+vector_store:
+  - name: pinecone
+    builder: pinecone_vector_store_builder
+    module: app.chat.vector_stores.pinecone
+
+  - name: singlestore
+    builder: singlestore_vector_store_builder
+    module: app.chat.vector_stores.singlestore
+
 retriever:
   - name: pinecone_1
     builder: pinecone_retriever_builder
     module: app.chat.vector_stores.pinecone
     params:
+      embedding_name: openai1
       search_kwargs:
         k: 1
 
@@ -76,6 +95,7 @@ retriever:
     builder: pinecone_retriever_builder
     module: app.chat.vector_stores.pinecone
     params:
+      embedding_name: openai2
       search_kwargs:
         k: 2
 
@@ -83,30 +103,32 @@ retriever:
     builder: pinecone_retriever_builder
     module: app.chat.vector_stores.pinecone
     params:
+      embedding_name: openai1
       search_kwargs:
         k: 3
 
-  # - name: singlestore_1
-  #   builder: singlestore_retriever_builder
-  #   module: app.chat.vector_stores.singlestore
-  #   params:
-  #     search_kwargs:
-  #       k: 1
+  - name: singlestore_1
+    builder: singlestore_retriever_builder
+    module: app.chat.vector_stores.singlestore
+    params:
+      embedding_name: openai
+      search_kwargs:
+        k: 1
 
-  # - name: singlestore_2
-  #   builder: singlestore_retriever_builder
-  #   module: app.chat.vector_stores.singlestore
-  #   params:
-  #     search_kwargs:
-  #       k: 2
+  - name: singlestore_2
+    builder: singlestore_retriever_builder
+    module: app.chat.vector_stores.singlestore
+    params:
+      embedding_name: openai
+      search_kwargs:
+        k: 2
 
-  # - name: singlestore_3
-  #   builder: singlestore_retriever_builder
-  #   module: app.chat.vector_stores.singlestore
-  #   params:
-  #     search_kwargs:
-  #       k: 3
+  - name: singlestore_3
+    builder: singlestore_retriever_builder
+    module: app.chat.vector_stores.singlestore
+    params:
+      embedding_name: openai
+      search_kwargs:
+        k: 3
 
-embedding:
-  - name: openai
-    model: OpenAI
+

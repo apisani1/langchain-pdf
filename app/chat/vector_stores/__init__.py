@@ -1,15 +1,11 @@
 from pprint import pprint
 
 from ..config import chat_config
-from .pinecone import pinecone_vector_store_builder
-from .singlestore import singlestore_vector_store_builder  # noqa: F401
 
 
+chat_config._build_embeddings()
+chat_config._build_vector_stores()
 retriever_map = chat_config.build_map("retriever")
-
-
-chat_config.build_vector_stores("pinecone", pinecone_vector_store_builder)
-# build_vector_stores("singlestore", singlestore_vector_store_builder)
 
 
 print("-" * 50)
