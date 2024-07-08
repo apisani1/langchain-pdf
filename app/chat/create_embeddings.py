@@ -1,21 +1,4 @@
-# from langchain.document_loaders import PyPDFLoader
-# from langchain.text_splitter import RecursiveCharacterTextSplitter
-# from app.chat.vector_stores.pinecone import vector_store
-#
-#
-# def create_embeddings_for_pdf(pdf_id: str, pdf_path: str):
-#   text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=100)
-#   loader = PyPDFLoader(pdf_path)
-#   docs = loader.load_and_split(text_splitter)
-# for doc in docs:
-#     doc.metadata = {
-#         "page": doc.metadata["page"],
-#         "text": doc.page_content,
-#         "pdf_id": pdf_id
-#     }
-#   vector_store.add_documents(docs)
-
-from app.chat.vector_stores import vector_stores
+from app.chat.config import chat_config
 from langchainX.document import load_document
 
 
@@ -54,5 +37,5 @@ def create_embeddings_for_pdf(doc_id: str, file_path: str, doc_name: str = ""):
             "source": doc_name,
         }
 
-    for vector_store in vector_stores:
+    for vector_store in chat_config.vector_stores:
         vector_store.add_documents(docs, id_key="chunk_id")
