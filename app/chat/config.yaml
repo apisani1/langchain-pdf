@@ -106,3 +106,7 @@ retriever:
   #   params:
   #     search_kwargs:
   #       k: 3
+
+embedding:
+  - name: openai
+    model: OpenAI

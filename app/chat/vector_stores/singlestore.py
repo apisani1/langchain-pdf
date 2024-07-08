@@ -6,14 +6,14 @@ from langchain.schema import BaseRetriever
 from langchainX.store.singlestore import SingleStore  # noqa: F401
 
 
-# singlestore_vector_store = SingleStore.connect(
+# singlestore_vector_stores = [SingleStore.connect(
 #     index_name=os.getenv("SINGLESTOREDB_TABLE"),
 #     host=os.getenv("SINGLESTOREDB_HOST"),
 #     database=os.getenv("SINGLESTOREDB_DATABASE"),
 #     id_key="chunk_id",
-# )
+# )]
 
-singlestore_vector_store = None
+singlestore_vector_stores = None
 
 
 def singlestore_retriever_builder(
@@ -21,4 +21,4 @@ def singlestore_retriever_builder(
 ) -> BaseRetriever:
     search_kwargs = search_kwargs or {}
     search_kwargs.update({"filter": {"doc_id": chat_args.pdf_id}})
-    return singlestore_vector_store.as_retriever(search_kwargs=search_kwargs)
+    return singlestore_vector_stores[0].as_retriever(search_kwargs=search_kwargs)
