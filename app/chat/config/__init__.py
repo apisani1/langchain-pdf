@@ -1,4 +1,5 @@
 import importlib
+import os
 from functools import partial
 
 import yaml  # type: ignore
@@ -18,9 +19,18 @@ class ChatConfig:
     def vector_store_map(self):
         return self._vector_store_map
 
-    def build_embeddings(self):
+    def _init_component(self, component: dict):
+        env_variables = component.get("env", {})
+        for key, value in env_variables.items():
+            os.environ[key] = value
+        shell_commands = component.get("shell", [])
+        for command in shell_commands:
+            os.system(command)
+
+    def _build_embeddings(self):
         embedding_map = {}
         for embedding in self._yaml_data["embedding"]:
+            self._init_component(embedding)
             embedding_name = embedding["name"]
             embedding_model = embedding["model"]
             embedding_kwargs = embedding.get("params", {})
@@ -30,10 +40,12 @@ class ChatConfig:
         self._embedding_map = embedding_map
 
     def build_vector_stores(self):
+        self._build_embeddings()
         self._vector_stores = []
         self._vector_store_map = {}
 
         for vector_store in self._yaml_data["vector_store"]:
+            self._init_component(vector_store)
             vector_store_name = vector_store["name"]
             vector_store_module = importlib.import_module(vector_store["module"])
             vector_store_builder = getattr(vector_store_module, vector_store["builder"])
@@ -51,6 +63,7 @@ class ChatConfig:
     def build_map(self, component_type: str) -> dict:
         component_map = {}
         for component in self._yaml_data[component_type]:
+            self._init_component(component)
             component_name = component["name"]
             component_module = importlib.import_module(component["module"])
             component_builder = getattr(component_module, component["builder"])

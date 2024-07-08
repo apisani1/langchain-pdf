@@ -1,6 +1,3 @@
-# To use VertexAI models you need to authenticate with your Google Cloud account.
-# run 'gcloud auth login' in your terminal
-
 llm:
   - name: gpt-4
     builder: build_llm
@@ -19,6 +16,8 @@ llm:
   - name: chat-bison
     builder: build_llm
     module: app.chat.llms.chat_model
+    # shell:
+    #   - gcloud auth login
     params:
       chat_name: VertexAI
       model_name: chat-bison
@@ -64,8 +63,6 @@ memory:
     params:
       max_token_limit: 3000
 
-
-
 embedding:
   - name: openai1
     model: OpenAI
@@ -77,6 +74,8 @@ vector_store:
   - name: pinecone
     builder: pinecone_vector_store_builder
     module: app.chat.vector_stores.pinecone
+    # env:
+    #   ENV_VAR: "value"
 
   - name: singlestore
     builder: singlestore_vector_store_builder
