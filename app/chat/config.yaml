@@ -130,4 +130,10 @@ retriever:
       search_kwargs:
         k: 3
 
+chain:
+  condense_question_llm:
+    chat_name: OpenAI
+    model_name: gpt-4
+
+
 

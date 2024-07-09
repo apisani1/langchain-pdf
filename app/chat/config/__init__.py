@@ -3,13 +3,24 @@ import os
 from functools import partial
 
 import yaml  # type: ignore
+from dotenv import (
+    find_dotenv,
+    load_dotenv,
+)
 from langchainX.embedding import Embedding
+
+
+load_dotenv(find_dotenv(), override=True)
 
 
 class ChatConfig:
     def __init__(self, config_file: str):
         with open(config_file) as f:
             self._yaml_data = yaml.safe_load(f)
+        self._chain_config = self._yaml_data.get("chain", {})
+        self._condense_question_llm = self._chain_config.get(
+            "condense_question_llm", {}
+        )
 
     @property
     def vector_stores(self):
@@ -18,6 +29,10 @@ class ChatConfig:
     @property
     def vector_store_map(self):
         return self._vector_store_map
+
+    @property
+    def condense_question_llm_kwargs(self):
+        return self._condense_question_llm
 
     def _init_component(self, component: dict):
         env_variables = component.get("env", {})

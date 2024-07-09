@@ -1,3 +1,4 @@
+from app.chat.config import chat_config
 from app.chat.chains.retrieval import StreamingConversationalRetrievalChain
 from app.chat.llms import llm_map
 from app.chat.llms.chat_model import build_llm
@@ -47,7 +48,9 @@ def build_chat(chat_args: ChatArgs):
         memory=memory_name,
     )
 
-    condense_question_llm = build_llm(chat_args, streaming=False)
+    condense_question_llm = build_llm(
+        chat_args, **chat_config.condense_question_llm_kwargs, streaming=False
+    )
 
     return StreamingConversationalRetrievalChain.from_llm(
         llm=llm,
