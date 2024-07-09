@@ -53,7 +53,7 @@ class ChatConfig:
             stores = []
             store_map = {}
             for name, embedding in self._embedding_map.items():
-                store = vector_store_builder(embedding)
+                store = vector_store_builder(name, embedding)
                 stores.append(store)
                 store_map[name] = store
 

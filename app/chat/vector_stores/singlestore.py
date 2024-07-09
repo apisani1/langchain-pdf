@@ -7,9 +7,11 @@ from langchainX.embedding import Embedding
 from langchainX.store.singlestore import SingleStore
 
 
-def singlestore_vector_store_builder(embedding: Embedding) -> SingleStore:
+def singlestore_vector_store_builder(
+    embedding_name: str, embedding: Embedding
+) -> SingleStore:
     return SingleStore.connect(
-        index_name=os.getenv("SINGLESTOREDB_TABLE"),
+        index_name=os.getenv("SINGLESTOREDB_TABLE") + "_" + embedding_name,
         host=os.getenv("SINGLESTOREDB_HOST"),
         database=os.getenv("SINGLESTOREDB_DATABASE"),
         embedding=embedding,
@@ -24,4 +26,6 @@ def singlestore_retriever_builder(
 
     search_kwargs = search_kwargs or {}
     search_kwargs.update({"filter": {"doc_id": chat_args.pdf_id}})
-    return chat_config.vector_store_map["singlestore"][embedding_name].as_retriever(search_kwargs=search_kwargs)
+    return chat_config.vector_store_map["singlestore"][embedding_name].as_retriever(
+        search_kwargs=search_kwargs
+    )

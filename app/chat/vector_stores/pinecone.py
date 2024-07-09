@@ -7,9 +7,11 @@ from langchainX.embedding import Embedding
 from langchainX.store.pinecone_store import PineconeStore
 
 
-def pinecone_vector_store_builder(embedding: Embedding) -> PineconeStore:
+def pinecone_vector_store_builder(
+    embedding_name: str, embedding: Embedding
+) -> PineconeStore:
     return PineconeStore.connect(
-        index_name=os.getenv("PINECONE_INDEX_NAME"),
+        index_name=os.getenv("PINECONE_INDEX_NAME") + "-" + embedding_name,
         namespace=os.getenv("PINECONE_NAMESPACE"),
         embedding=embedding,
     )
