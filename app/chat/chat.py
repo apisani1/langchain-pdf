@@ -16,7 +16,7 @@ def select_component(component_type: str, component_map: dict, chat_args: ChatAr
     components = get_conversation_components(chat_args.conversation_id)
     previous_component = components[component_type]
 
-    if previous_component:
+    if previous_component and previous_component in component_map:
         builder = component_map[previous_component]
         return previous_component, builder(chat_args)
     else:
@@ -51,6 +51,14 @@ def build_chat(chat_args: ChatArgs):
     condense_question_llm = build_llm(
         chat_args, **chat_config.condense_question_llm_kwargs, streaming=False
     )
+
+    print("*" * 50)
+    print(f"Chat initiatied with components:")
+    print(f"LLM: {llm_name}")
+    print(f"Retriever: {retriever_name}")
+    print(f"Memory: {memory_name}")
+    print(f"Condense Question LLM: {chat_config.condense_question_llm_kwargs}")
+    print("*" * 50)
 
     return StreamingConversationalRetrievalChain.from_llm(
         llm=llm,

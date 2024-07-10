@@ -82,9 +82,9 @@ vector_store:
     # env:
     #   ENV_VAR: "value"
 
-  - name: singlestore
-    builder: singlestore_vector_store_builder
-    module: app.chat.vector_stores.singlestore
+  # - name: singlestore
+  #   builder: singlestore_vector_store_builder
+  #   module: app.chat.vector_stores.singlestore
 
 retriever:
   - name: pinecone_1
@@ -111,27 +111,27 @@ retriever:
       search_kwargs:
         k: 3
 
-  - name: singlestore_1
-    builder: singlestore_retriever_builder
-    module: app.chat.vector_stores.singlestore
-    params:
-      embedding_name: openai
-      search_kwargs:
-        k: 1
+  # - name: singlestore_1
+  #   builder: singlestore_retriever_builder
+  #   module: app.chat.vector_stores.singlestore
+  #   params:
+  #     embedding_name: openai
+  #     search_kwargs:
+  #       k: 1
 
-  - name: singlestore_2
-    builder: singlestore_retriever_builder
-    module: app.chat.vector_stores.singlestore
-    params:
-      embedding_name: microsoft
-      search_kwargs:
-        k: 2
+  # - name: singlestore_2
+  #   builder: singlestore_retriever_builder
+  #   module: app.chat.vector_stores.singlestore
+  #   params:
+  #     embedding_name: microsoft
+  #     search_kwargs:
+  #       k: 2
 
-  - name: singlestore_3
-    builder: singlestore_retriever_builder
-    module: app.chat.vector_stores.singlestore
-    params:
-      embedding_name: openai
-      search_kwargs:
-        k: 3
+  # - name: singlestore_3
+  #   builder: singlestore_retriever_builder
+  #   module: app.chat.vector_stores.singlestore
+  #   params:
+  #     embedding_name: openai
+  #     search_kwargs:
+  #       k: 3
 
