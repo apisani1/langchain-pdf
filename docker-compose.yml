@@ -1,0 +1,82 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    command: flask --app app.web run --debug --host 0.0.0.0 --port 8000
+    volumes:
+      - .:/chat_pdf
+      - /Users/antonio/Desktop/DataScience/MyCode/langchainX:/chat_pdf/langchainX
+      - shared_tmp:/tmp
+    environment:
+      - APP_ENV=development
+      - PYTHONPATH=/chat_pdf:$PYTHONPATH
+    networks:
+      - app_network
+    ports:
+      - "8000:8000"  # Adjust this if your app uses a different port
+    depends_on:
+      - redis
+      - file_server
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    command: watchmedo auto-restart --directory=./app --pattern=*.py --recursive -- celery -A app.celery.worker worker --concurrency=1 --loglevel=INFO --pool=solo
+    volumes:
+      - .:/chat_pdf
+      - /Users/antonio/Desktop/DataScience/MyCode/langchainX:/chat_pdf/langchainX
+      - shared_tmp:/tmp
+    environment:
+      - APP_ENV=development
+       - PYTHONPATH=/chat_pdf:$PYTHONPATH
+    networks:
+      - app_network
+    depends_on:
+      - redis
+      - file_server
+
+  file_server:
+    build:
+      context: ../local-do-files
+      dockerfile: Dockerfile.dev
+    command: python3 app.py
+    volumes:
+      - ../local-do-files:/file_server
+      - shared_tmp:/tmp
+    networks:
+      - app_network
+    ports:
+      - "8050:8050"
+    environment:
+      - PYTHONPATH=/file_server:$PYTHONPATH
+    depends_on:
+      - redis
+    # healthcheck:
+    #   test: ["CMD", "curl", "-f", "http://localhost:8050/health"]
+    #   interval: 10s
+    #   timeout: 5s
+    #   retries: 3
+   
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - app_network
+
+volumes:
+  chat_pdf:
+  redis_data:
+  shared_tmp:
+      driver: local
+
+networks:
+  app_network:
+    driver: bridge

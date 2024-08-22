@@ -1,4 +1,5 @@
 from flask import Blueprint, g, jsonify
+
 # from werkzeug.exceptions import Unauthorized
 from app.web.hooks import login_required, handle_file_upload, load_model
 from app.web.db.models import Pdf
@@ -35,6 +36,7 @@ def upload_file(file_id, file_path, file_name):
 @login_required
 @load_model(Pdf)
 def show(pdf):
+    print(">>>> Download URL: ", files.create_download_url(pdf.id))
     return jsonify(
         {
             "pdf": pdf.as_dict(),
