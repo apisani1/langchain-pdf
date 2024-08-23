@@ -14,7 +14,9 @@ def upload(local_file_path: str) -> Tuple[Dict[str, str], int]:
         return json.loads(response.text), response.status_code
 
 
-def create_download_url(file_id):
+def create_download_url(file_id, worker=False):
+    if worker:
+        return f"{Config.UPLOAD_URL}/download/{file_id}"
     return f"{Config.DOWNLOAD_URL}/download/{file_id}"
 
 
@@ -30,7 +32,7 @@ class _Download:
 
     def download(self):
         self.file_path = os.path.join(self.temp_dir.name, self.file_id)
-        response = requests.get(create_download_url(self.file_id), stream=True)
+        response = requests.get(create_download_url(self.file_id, worker=True), stream=True)
         with open(self.file_path, "wb") as file:
             for chunk in response.iter_content(chunk_size=8192):
                 file.write(chunk)
