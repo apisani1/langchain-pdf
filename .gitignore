@@ -11,4 +11,7 @@ __pycache__/
 langchainX.log
 dump.rdb
 *.code-workspace
+docs-*/
+*.sql*
+
 

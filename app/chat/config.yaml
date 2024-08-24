@@ -4,19 +4,19 @@ chain:
     model_name: gpt-4
 
 llm:
-  - name: gpt-4
+  - name: gpt-4o
     builder: build_llm
     module: app.chat.llms.chat_model
     params:
       chat_name: OpenAI
-      model_name: gpt-4
+      model_name: gpt-4o
 
-  - name: gpt-3.5-turbo
+  - name: gpt-4o-mini
     builder: build_llm
     module: app.chat.llms.chat_model
     params:
       chat_name: OpenAI
-      model_name: gpt-3.5-turbo
+      model_name: gpt-4o-mini
 
   # - name: chat-bison
   #   builder: build_llm
@@ -69,11 +69,18 @@ memory:
       max_token_limit: 3000
 
 embedding:
-  # - name: openai
-  #   model: OpenAI
+  - name: openai_small
+    model: OpenAI
+    params:
+      model_name: text-embedding-3-small
 
-  - name: microsoft
-    model: E5
+  - name: openai_large
+    model: OpenAI
+    params:
+      model_name: text-embedding-3-large
+
+  # - name: microsoft
+  #   model: E5
 
 vector_store:
   - name: chroma
@@ -91,29 +98,22 @@ vector_store:
   #   module: app.chat.vector_stores.singlestore
 
 retriever:
-  - name: chroma_1
+  - name: chroma_small
     builder: chroma_retriever_builder
     module: app.chat.vector_stores.chroma
     params:
-      embedding_name: microsoft
-      search_kwargs:
-        k: 1
-
-  - name: chroma_2
-    builder: chroma_retriever_builder
-    module: app.chat.vector_stores.chroma
-    params:
-      embedding_name: microsoft
-      search_kwargs:
-        k: 2
-
-  - name: chroma_3
-    builder: chroma_retriever_builder
-    module: app.chat.vector_stores.chroma
-    params:
-      embedding_name: microsoft
+      embedding_name: openai_small
       search_kwargs:
         k: 3
+
+  - name: chroma_large
+    builder: chroma_retriever_builder
+    module: app.chat.vector_stores.chroma
+    params:
+      embedding_name: openai_large
+      search_kwargs:
+        k: 3
+
 
   # - name: pinecone_1
   #   builder: pinecone_retriever_builder
