@@ -1,18 +1,18 @@
-
 version: '3.8'
 
 services:
   web:
     build:
       context: .
-      dockerfile: Dockerfile
-    command:  gunicorn --bind 0.0.0.0:8000 --workers 4 --threads 4 "app.web:create_app()"
+      dockerfile: Dockerfile.dev
+    command: flask --app app.web run --debug --host 0.0.0.0 --port 8000
     volumes:
+      - .:/chat_pdf
       - /Users/antonio/Desktop/DataScience/MyCode/langchainX:/chat_pdf/langchainX
       - shared_tmp:/tmp
     environment:
-      - APP_ENV=production
-      - PYTHONPATH=/chat_pdf:/chat_pdf/langchainX:${PYTHONPATH}
+      - APP_ENV=development
+      - PYTHONPATH=/chat_pdf:$PYTHONPATH
     networks:
       - app_network
     ports:
@@ -20,19 +20,19 @@ services:
     depends_on:
       - redis
       - file_server
-      - worker
 
   worker:
     build:
       context: .
-      dockerfile: Dockerfile
-    command: celery -A app.celery.worker.celery_app worker --concurrency=2 --loglevel=INFO
+      dockerfile: Dockerfile.dev
+    command: watchmedo auto-restart --directory=./app --pattern=*.py --recursive -- celery -A app.celery.worker worker --concurrency=1 --loglevel=INFO --pool=solo
     volumes:
+      - .:/chat_pdf
       - /Users/antonio/Desktop/DataScience/MyCode/langchainX:/chat_pdf/langchainX
       - shared_tmp:/tmp
     environment:
-      - APP_ENV=production
-      - PYTHONPATH=/chat_pdf:/chat_pdf/langchainX:${PYTHONPATH}
+      - APP_ENV=development
+       - PYTHONPATH=/chat_pdf:$PYTHONPATH
     networks:
       - app_network
     depends_on:
@@ -42,8 +42,8 @@ services:
   file_server:
     build:
       context: ../local-do-files
-      dockerfile: Dockerfile
-    command: gunicorn --bind 0.0.0.0:8050 --workers 2 --threads 2 "app:app"
+      dockerfile: Dockerfile.dev
+    command: python3 app.py
     volumes:
       - ../local-do-files:/file_server
       - shared_tmp:/tmp
@@ -55,6 +55,11 @@ services:
       - PYTHONPATH=/file_server:$PYTHONPATH
     depends_on:
       - redis
+    # healthcheck:
+    #   test: ["CMD", "curl", "-f", "http://localhost:8050/health"]
+    #   interval: 10s
+    #   timeout: 5s
+    #   retries: 3
    
 
   redis:
@@ -67,6 +72,7 @@ services:
       - app_network
 
 volumes:
+  chat_pdf:
   redis_data:
   shared_tmp:
       driver: local

@@ -52,13 +52,16 @@ def build_chat(chat_args: ChatArgs):
         chat_args, **chat_config.condense_question_llm_kwargs, streaming=False
     )
 
-    print("*" * 50)
-    print(f"Chat initiatied with components:")
-    print(f"LLM: {llm_name}")
-    print(f"Retriever: {retriever_name}")
-    print(f"Memory: {memory_name}")
-    print(f"Condense Question LLM: {chat_config.condense_question_llm_kwargs}")
-    print("*" * 50)
+    import os
+
+    if os.getenv("APP_ENV") == "development":
+        print("*" * 50)
+        print(f"Chat initiatied with components:")
+        print(f"LLM: {llm_name}")
+        print(f"Retriever: {retriever_name}")
+        print(f"Memory: {memory_name}")
+        print(f"Condense Question LLM: {chat_config.condense_question_llm_kwargs}")
+        print("*" * 50)
 
     return StreamingConversationalRetrievalChain.from_llm(
         llm=llm,
