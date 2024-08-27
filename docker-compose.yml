@@ -2,11 +2,23 @@
 version: '3.8'
 
 services:
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - web
+      - file_server
+    networks:
+      - app_network
+
   web:
     build:
       context: .
       dockerfile: Dockerfile
-    command:  gunicorn --bind 0.0.0.0:8000 --workers 4 --threads 4 "app.web:create_app()"
+    command: gunicorn --bind 0.0.0.0:8000 --workers 4 --threads 4 "app.web:create_app()"
     volumes:
       - /Users/antonio/Desktop/DataScience/MyCode/langchainX:/chat_pdf/langchainX
       - shared_tmp:/tmp
@@ -15,8 +27,10 @@ services:
       - PYTHONPATH=/chat_pdf:/chat_pdf/langchainX:${PYTHONPATH}
     networks:
       - app_network
+    expose:
+      - "8000"
     ports:
-      - "8000:8000"  # Adjust this if your app uses a different port
+      - "8000"
     depends_on:
       - redis
       - file_server
@@ -49,8 +63,10 @@ services:
       - shared_tmp:/tmp
     networks:
       - app_network
+    expose:
+      - "8050"
     ports:
-      - "8050:8050"
+      - "8050" 
     environment:
       - PYTHONPATH=/file_server:$PYTHONPATH
     depends_on:
