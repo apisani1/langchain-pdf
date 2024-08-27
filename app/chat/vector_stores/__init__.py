@@ -7,7 +7,7 @@ retriever_map = chat_config.build_map("retriever")
 from pprint import pprint
 import os
 
-if os.environ["APP_ENV"] == "development":
+if os.getenv("APP_ENV") == "development":
     print("-" * 50)
     print("Available embeddings:")
     pprint(chat_config._embedding_map)
