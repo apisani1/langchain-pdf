@@ -1,8 +1,8 @@
 from flask import Flask
 from flask_cors import CORS
+from flask_migrate import Migrate
 
 from app.web.db import db, init_db_command
-# from app.web.db import models
 from app.celery import celery_init_app
 from app.web.config import Config
 from app.web.hooks import load_logged_in_user, handle_error, add_headers
@@ -13,6 +13,8 @@ from app.web.views import (
     client_views,
     conversation_views,
 )
+
+migrate = Migrate()
 
 
 def create_app():
@@ -31,6 +33,7 @@ def create_app():
 
 def register_extensions(app):
     db.init_app(app)
+    migrate.init_app(app, db)
     app.cli.add_command(init_db_command)
 
 

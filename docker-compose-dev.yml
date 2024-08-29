@@ -1,7 +1,5 @@
-version: '3.8'
-
 services:
-  web:
+  web-dev:
     build:
       context: .
       dockerfile: Dockerfile.dev
@@ -16,12 +14,13 @@ services:
     networks:
       - app_network
     ports:
-      - "8000:8000"  # Adjust this if your app uses a different port
+      - "8000:8000"
     depends_on:
       - redis
-      - file_server
+      - file-server-dev
+      - worker-dev
 
-  worker:
+  worker-dev:
     build:
       context: .
       dockerfile: Dockerfile.dev
@@ -37,9 +36,9 @@ services:
       - app_network
     depends_on:
       - redis
-      - file_server
+      - file-server-dev
 
-  file_server:
+  file-server-dev:
     build:
       context: ../local-do-files
       dockerfile: Dockerfile.dev
@@ -55,13 +54,7 @@ services:
       - PYTHONPATH=/file_server:$PYTHONPATH
     depends_on:
       - redis
-    # healthcheck:
-    #   test: ["CMD", "curl", "-f", "http://localhost:8050/health"]
-    #   interval: 10s
-    #   timeout: 5s
-    #   retries: 3
    
-
   redis:
     image: redis:latest
     ports:
