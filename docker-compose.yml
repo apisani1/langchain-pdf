@@ -24,7 +24,8 @@ services:
     environment:
       - APP_ENV=production
       - FLASK_APP=wsgi.py
-      - DATABASE_URL=${DATABASE_URL}
+      - UPLOAD_URL=http://nginx/files
+      - DOWNLOAD_URL=http://localhost/files
       - PYTHONPATH=/chat_pdf:/chat_pdf/langchainX:${PYTHONPATH}
     networks:
       - app_network
@@ -49,7 +50,8 @@ services:
     environment:
       - APP_ENV=production
       - FLASK_APP=wsgi.py
-      - DATABASE_URL=${DATABASE_URL}
+      - UPLOAD_URL=http://nginx/files
+      - DOWNLOAD_URL=http://localhost/files
       - PYTHONPATH=/chat_pdf:/chat_pdf/langchainX:${PYTHONPATH}
     networks:
       - app_network
@@ -64,7 +66,7 @@ services:
       dockerfile: Dockerfile
     command: gunicorn --bind 0.0.0.0:8050 --workers 2 --threads 2 "app:app"
     volumes:
-      - file_uploads:/file-server/uploads
+      - file_uploads:/file_server/uploads
       - shared_tmp:/tmp
     networks:
       - app_network
