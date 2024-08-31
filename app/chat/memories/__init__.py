@@ -7,7 +7,7 @@ from pprint import pprint
 import os
 
 if os.getenv("APP_ENV") == "development":
-    print("-" * 50)
+    print("*" * 50)
     print("Available chat memories:")
     pprint(memory_map)
-    print("-" * 50)
+    print("*" * 50)
