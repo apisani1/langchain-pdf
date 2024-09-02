@@ -47,15 +47,21 @@ def create_message(conversation):
     if not chat:
         return "Chat not yet implemented!"
 
-    if streaming:
-        return Response(
-            stream_with_context(chat.stream(chat_input)), mimetype="text/event-stream"
-        )
-    else:
-        # return jsonify({"role": "assistant", "content": chat.run(chat_input)})
-        return jsonify(
-            {
-                "role": "assistant",
-                "content": chat.invoke(input={"question": chat_input})["answer"],
-            }
-        )
+    try:
+
+        if streaming:
+            return Response(
+                stream_with_context(chat.stream(chat_input)),
+                mimetype="text/event-stream",
+            )
+        else:
+            # return jsonify({"role": "assistant", "content": chat.run(chat_input)})
+            return jsonify(
+                {
+                    "role": "assistant",
+                    "content": chat.invoke(input={"question": chat_input})["answer"],
+                }
+            )
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
