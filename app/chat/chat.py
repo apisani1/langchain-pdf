@@ -53,15 +53,18 @@ def build_chat(chat_args: ChatArgs):
     )
 
     import os
+    from .logger import logger
 
     if os.getenv("APP_ENV") == "development":
-        print("*" * 50)
-        print(f"Chat initiatied with components:")
-        print(f"LLM: {llm_name}")
-        print(f"Retriever: {retriever_name}")
-        print(f"Memory: {memory_name}")
-        print(f"Condense Question LLM: {chat_config.condense_question_llm_kwargs}")
-        print("*" * 50)
+        logger.info(">" * 50)
+        logger.info(f"Chat initiatied with components:")
+        logger.info(f"LLM: {llm_name}")
+        logger.info(f"Retriever: {retriever_name}")
+        logger.info(f"Memory: {memory_name}")
+        logger.info(
+            f"Condense Question LLM: {chat_config.condense_question_llm_kwargs}"
+        )
+        logger.info("<" * 50)
 
     return StreamingConversationalRetrievalChain.from_llm(
         llm=llm,

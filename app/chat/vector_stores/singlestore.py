@@ -8,10 +8,14 @@ from langchainX.store.singlestore import SingleStore
 
 
 def singlestore_vector_store_builder(
-    embedding_name: str, embedding: Embedding
+    splitter_name: str, embedding_name: str, embedding: Embedding
 ) -> SingleStore:
     return SingleStore.connect(
-        index_name=os.getenv("SINGLESTOREDB_TABLE") + "_" + embedding_name,
+        index_name=os.getenv("SINGLESTOREDB_TABLE")
+        + "_"
+        + splitter_name
+        + "-"
+        + embedding_name,
         host=os.getenv("SINGLESTOREDB_HOST"),
         database=os.getenv("SINGLESTOREDB_DATABASE"),
         embedding=embedding,
@@ -20,12 +24,12 @@ def singlestore_vector_store_builder(
 
 
 def singlestore_retriever_builder(
-    chat_args: ChatArgs, embedding_name: str, search_kwargs: Optional[dict] = None
+    chat_args: ChatArgs, splitter_name: str, embedding_name: str, search_kwargs: Optional[dict] = None
 ) -> BaseRetriever:
     from app.chat.config import chat_config
 
     search_kwargs = search_kwargs or {}
     search_kwargs.update({"filter": {"doc_id": chat_args.pdf_id}})
-    return chat_config.vector_store_map["singlestore"][embedding_name].as_retriever(
+    return chat_config.vector_store_map[splitter_name]["singlestore"][embedding_name].as_retriever(
         search_kwargs=search_kwargs
     )

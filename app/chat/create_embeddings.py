@@ -18,24 +18,25 @@ def create_embeddings_for_pdf(doc_id: str, file_path: str, doc_name: str = ""):
 
     create_embeddings_for_pdf('123456', '/path/to/pdf')
     """
-    docs = load_document(
-        file_path,
-        mode="paged",
-        strategy="fast",
-        chunk_it=True,
-        chunk_size=500,
-        chunk_overlap=100,
-    )
+    for text_splitter_name, text_splitter in chat_config.document_splitters.items():
+        docs = load_document(
+            file_path,
+            mode="paged",
+            strategy="fast",
+            chunk_it=True,
+            text_splitter=text_splitter,
+        )
 
-    if not docs:
-        raise ValueError("No chunk of text found in the document.")
+        if not docs:
+            raise ValueError("No chunk of text found in the document.")
 
-    for doc in docs:
-        doc.metadata = {
-            "page": doc.metadata["page_number"],
-            "doc_id": doc_id,
-            "source": doc_name,
-        }
+        for doc in docs:
+            doc.metadata = {
+                "page": doc.metadata["page_number"],
+                "doc_id": doc_id,
+                "source": doc_name,
+                "splitter": text_splitter_name,
+            }
 
-    for vector_store in chat_config.vector_stores:
-        vector_store.add_documents(docs, id_key="chunk_id")
+        for vector_store in chat_config.vector_stores[text_splitter_name]:
+            vector_store.add_documents(docs, id_key="chunk_id")

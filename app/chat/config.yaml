@@ -1,7 +1,7 @@
 chain:
   condense_question_llm:
     chat_name: OpenAI
-    model_name: gpt-4
+    model_name: gpt-4o
 
 llm:
   - name: gpt-4o
@@ -82,6 +82,22 @@ embedding:
   # - name: microsoft
   #   model: E5
 
+text_splitter:
+  - name: recursive_character
+    builder: recursive_character_text_splitter_builder
+    module: app.chat.text_splitters.recursive
+    params:
+      chunk_size: 4000
+      chunk_overlap: 200
+
+  - name: semantic_openai_small
+    builder: semantic_chunker_builder
+    module: app.chat.text_splitters.semantic
+    params:
+      embedding: openai_small
+
+
+
 vector_store:
   - name: chroma
     builder: chroma_vector_store_builder
@@ -98,18 +114,38 @@ vector_store:
   #   module: app.chat.vector_stores.singlestore
 
 retriever:
-  - name: chroma_small
+  - name: chroma_small_recursive
     builder: chroma_retriever_builder
     module: app.chat.vector_stores.chroma
     params:
+      splitter_name: recursive_character
       embedding_name: openai_small
       search_kwargs:
         k: 3
 
-  - name: chroma_large
+  - name: chroma_large_recursive
     builder: chroma_retriever_builder
     module: app.chat.vector_stores.chroma
     params:
+      splitter_name: recursive_character
+      embedding_name: openai_large
+      search_kwargs:
+        k: 3
+
+  - name: chroma_small_semantic
+    builder: chroma_retriever_builder
+    module: app.chat.vector_stores.chroma
+    params:
+      splitter_name: semantic_openai_small
+      embedding_name: openai_small
+      search_kwargs:
+        k: 3
+
+  - name: chroma_large_semantic
+    builder: chroma_retriever_builder
+    module: app.chat.vector_stores.chroma
+    params:
+      splitter_name: semantic_openai_small
       embedding_name: openai_large
       search_kwargs:
         k: 3

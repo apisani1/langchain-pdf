@@ -1,15 +1,13 @@
-
-
 from ..config import chat_config
 
 
 llm_map = chat_config.build_map("llm")
 
-from pprint import pprint
 import os
+from pprint import pformat
+from ..logger import logger
 
 if os.getenv("APP_ENV") == "development":
-    print("*" * 50)
-    print("Available chat models:")
-    pprint(llm_map)
-    print("*" * 50)
+    logger.info(">" * 50)
+    logger.info("Available chat models:\n" + pformat(llm_map))
+    logger.info("<" * 50)

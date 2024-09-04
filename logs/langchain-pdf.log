@@ -1,0 +1,129 @@
+2024-09-04 23:34:45,956 - app.chat.logger - INFO - >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+2024-09-04 23:34:45,956 - app.chat.logger - INFO - Available chat models:
+{'gpt-4o': functools.partial(<function build_llm at 0xffff86833100>, chat_name='OpenAI', model_name='gpt-4o'),
+ 'gpt-4o-mini': functools.partial(<function build_llm at 0xffff86833100>, chat_name='OpenAI', model_name='gpt-4o-mini')}
+2024-09-04 23:34:45,956 - app.chat.logger - INFO - <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+2024-09-04 23:34:45,966 - app.chat.logger - INFO - >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+2024-09-04 23:34:45,966 - app.chat.logger - INFO - Available chat memories: 
+{'buffer_memory': <function buffer_memory_builder at 0xffff86832200>,
+ 'summary_memory_1000': functools.partial(<function summary_buffer_memory_builder at 0xffff868a9440>, max_token_limit=1000),
+ 'summary_memory_2000': functools.partial(<function summary_buffer_memory_builder at 0xffff868a9440>, max_token_limit=2000),
+ 'summary_memory_3000': functools.partial(<function summary_buffer_memory_builder at 0xffff868a9440>, max_token_limit=3000),
+ 'window_memory_3': functools.partial(<function window_buffer_memory_builder at 0xffff868a8180>, k=3),
+ 'window_memory_5': functools.partial(<function window_buffer_memory_builder at 0xffff868a8180>, k=5),
+ 'window_memory_7': functools.partial(<function window_buffer_memory_builder at 0xffff868a8180>, k=7)}
+2024-09-04 23:34:45,966 - app.chat.logger - INFO - <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+2024-09-04 23:34:46,065 - app.chat.logger - INFO - >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+2024-09-04 23:34:46,065 - app.chat.logger - INFO - Available chat models:
+{'gpt-4o': functools.partial(<function build_llm at 0xffffa4bc3f60>, chat_name='OpenAI', model_name='gpt-4o'),
+ 'gpt-4o-mini': functools.partial(<function build_llm at 0xffffa4bc3f60>, chat_name='OpenAI', model_name='gpt-4o-mini')}
+2024-09-04 23:34:46,065 - app.chat.logger - INFO - <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+2024-09-04 23:34:46,075 - app.chat.logger - INFO - >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+2024-09-04 23:34:46,075 - app.chat.logger - INFO - Available chat memories: 
+{'buffer_memory': <function buffer_memory_builder at 0xffffa4a30fe0>,
+ 'summary_memory_1000': functools.partial(<function summary_buffer_memory_builder at 0xffffa4a84b80>, max_token_limit=1000),
+ 'summary_memory_2000': functools.partial(<function summary_buffer_memory_builder at 0xffffa4a84b80>, max_token_limit=2000),
+ 'summary_memory_3000': functools.partial(<function summary_buffer_memory_builder at 0xffffa4a84b80>, max_token_limit=3000),
+ 'window_memory_3': functools.partial(<function window_buffer_memory_builder at 0xffffa4a31260>, k=3),
+ 'window_memory_5': functools.partial(<function window_buffer_memory_builder at 0xffffa4a31260>, k=5),
+ 'window_memory_7': functools.partial(<function window_buffer_memory_builder at 0xffffa4a31260>, k=7)}
+2024-09-04 23:34:46,075 - app.chat.logger - INFO - <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+2024-09-04 23:34:46,765 - app.chat.logger - INFO - >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+2024-09-04 23:34:46,765 - app.chat.logger - INFO - Available splitters:
+{'recursive_character': functools.partial(<function recursive_character_text_splitter_builder at 0xffff6cb63ba0>, chunk_size=4000, chunk_overlap=200),
+ 'semantic_openai_small': functools.partial(<function semantic_chunker_builder at 0xffff6cb63ce0>, embedding='openai_small')}
+2024-09-04 23:34:46,765 - app.chat.logger - INFO - --------------------------------------------------
+2024-09-04 23:34:46,765 - app.chat.logger - INFO - Available embeddings:
+{'openai_large': <langchainX.embedding.embedding.Embedding object at 0xffff86c92950>,
+ 'openai_small': <langchainX.embedding.embedding.Embedding object at 0xffff86b304d0>}
+2024-09-04 23:34:46,765 - app.chat.logger - INFO - --------------------------------------------------
+2024-09-04 23:34:46,765 - app.chat.logger - INFO - Available vector stores:
+{'recursive_character': [ChromaStore(store=<langchain_chroma.vectorstores.Chroma object at 0xffff6cb64350>, index_name='vector_store/docs-recursive_character-openai_small', embedding=<langchainX.embedding.embedding.Embedding object at 0xffff86b304d0>, id_key='my_id', __fields_set__={'embedding', 'id_key', 'store', 'index_name'}),
+                         ChromaStore(store=<langchain_chroma.vectorstores.Chroma object at 0xffff6b576890>, index_name='vector_store/docs-recursive_character-openai_large', embedding=<langchainX.embedding.embedding.Embedding object at 0xffff86c92950>, id_key='my_id', __fields_set__={'embedding', 'id_key', 'store', 'index_name'})],
+ 'semantic_openai_small': [ChromaStore(store=<langchain_chroma.vectorstores.Chroma object at 0xffff6b59a3d0>, index_name='vector_store/docs-semantic_openai_small-openai_small', embedding=<langchainX.embedding.embedding.Embedding object at 0xffff86b304d0>, id_key='my_id', __fields_set__={'embedding', 'id_key', 'store', 'index_name'}),
+                           ChromaStore(store=<langchain_chroma.vectorstores.Chroma object at 0xffff69dd9510>, index_name='vector_store/docs-semantic_openai_small-openai_large', embedding=<langchainX.embedding.embedding.Embedding object at 0xffff86c92950>, id_key='my_id', __fields_set__={'embedding', 'id_key', 'store', 'index_name'})]}
+2024-09-04 23:34:46,765 - app.chat.logger - INFO - --------------------------------------------------
+2024-09-04 23:34:46,765 - app.chat.logger - INFO - Available retrievers: 
+{'chroma_large_recursive': functools.partial(<function chroma_retriever_builder at 0xffff6cb2b060>, splitter_name='recursive_character', embedding_name='openai_large', search_kwargs={'k': 3}),
+ 'chroma_large_semantic': functools.partial(<function chroma_retriever_builder at 0xffff6cb2b060>, splitter_name='semantic_openai_small', embedding_name='openai_large', search_kwargs={'k': 3}),
+ 'chroma_small_recursive': functools.partial(<function chroma_retriever_builder at 0xffff6cb2b060>, splitter_name='recursive_character', embedding_name='openai_small', search_kwargs={'k': 3}),
+ 'chroma_small_semantic': functools.partial(<function chroma_retriever_builder at 0xffff6cb2b060>, splitter_name='semantic_openai_small', embedding_name='openai_small', search_kwargs={'k': 3})}
+2024-09-04 23:34:46,766 - app.chat.logger - INFO - <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+2024-09-04 23:34:46,854 - app.chat.logger - INFO - >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+2024-09-04 23:34:46,854 - app.chat.logger - INFO - Available splitters:
+{'recursive_character': functools.partial(<function recursive_character_text_splitter_builder at 0xffff8ad21300>, chunk_size=4000, chunk_overlap=200),
+ 'semantic_openai_small': functools.partial(<function semantic_chunker_builder at 0xffff8ad213a0>, embedding='openai_small')}
+2024-09-04 23:34:46,854 - app.chat.logger - INFO - --------------------------------------------------
+2024-09-04 23:34:46,854 - app.chat.logger - INFO - Available embeddings:
+{'openai_large': <langchainX.embedding.embedding.Embedding object at 0xffffa5675cd0>,
+ 'openai_small': <langchainX.embedding.embedding.Embedding object at 0xffffa4f74b50>}
+2024-09-04 23:34:46,854 - app.chat.logger - INFO - --------------------------------------------------
+2024-09-04 23:34:46,854 - app.chat.logger - INFO - Available vector stores:
+{'recursive_character': [ChromaStore(store=<langchain_chroma.vectorstores.Chroma object at 0xffff8ad1bb50>, index_name='vector_store/docs-recursive_character-openai_small', embedding=<langchainX.embedding.embedding.Embedding object at 0xffffa4f74b50>, id_key='my_id', __fields_set__={'id_key', 'store', 'embedding', 'index_name'}),
+                         ChromaStore(store=<langchain_chroma.vectorstores.Chroma object at 0xffff8964add0>, index_name='vector_store/docs-recursive_character-openai_large', embedding=<langchainX.embedding.embedding.Embedding object at 0xffffa5675cd0>, id_key='my_id', __fields_set__={'id_key', 'store', 'embedding', 'index_name'})],
+ 'semantic_openai_small': [ChromaStore(store=<langchain_chroma.vectorstores.Chroma object at 0xffff89714990>, index_name='vector_store/docs-semantic_openai_small-openai_small', embedding=<langchainX.embedding.embedding.Embedding object at 0xffffa4f74b50>, id_key='my_id', __fields_set__={'id_key', 'store', 'embedding', 'index_name'}),
+                           ChromaStore(store=<langchain_chroma.vectorstores.Chroma object at 0xffff8816b290>, index_name='vector_store/docs-semantic_openai_small-openai_large', embedding=<langchainX.embedding.embedding.Embedding object at 0xffffa5675cd0>, id_key='my_id', __fields_set__={'id_key', 'store', 'embedding', 'index_name'})]}
+2024-09-04 23:34:46,854 - app.chat.logger - INFO - --------------------------------------------------
+2024-09-04 23:34:46,854 - app.chat.logger - INFO - Available retrievers: 
+{'chroma_large_recursive': functools.partial(<function chroma_retriever_builder at 0xffff8ad21d00>, splitter_name='recursive_character', embedding_name='openai_large', search_kwargs={'k': 3}),
+ 'chroma_large_semantic': functools.partial(<function chroma_retriever_builder at 0xffff8ad21d00>, splitter_name='semantic_openai_small', embedding_name='openai_large', search_kwargs={'k': 3}),
+ 'chroma_small_recursive': functools.partial(<function chroma_retriever_builder at 0xffff8ad21d00>, splitter_name='recursive_character', embedding_name='openai_small', search_kwargs={'k': 3}),
+ 'chroma_small_semantic': functools.partial(<function chroma_retriever_builder at 0xffff8ad21d00>, splitter_name='semantic_openai_small', embedding_name='openai_small', search_kwargs={'k': 3})}
+2024-09-04 23:34:46,854 - app.chat.logger - INFO - <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+2024-09-04 23:34:47,388 - app.chat.logger - INFO - >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+2024-09-04 23:34:47,388 - app.chat.logger - INFO - Available chat models:
+{'gpt-4o': functools.partial(<function build_llm at 0xffff90a365c0>, chat_name='OpenAI', model_name='gpt-4o'),
+ 'gpt-4o-mini': functools.partial(<function build_llm at 0xffff90a365c0>, chat_name='OpenAI', model_name='gpt-4o-mini')}
+2024-09-04 23:34:47,388 - app.chat.logger - INFO - <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+2024-09-04 23:34:47,397 - app.chat.logger - INFO - >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+2024-09-04 23:34:47,397 - app.chat.logger - INFO - Available chat memories: 
+{'buffer_memory': <function buffer_memory_builder at 0xffff90a356c0>,
+ 'summary_memory_1000': functools.partial(<function summary_buffer_memory_builder at 0xffff90aac900>, max_token_limit=1000),
+ 'summary_memory_2000': functools.partial(<function summary_buffer_memory_builder at 0xffff90aac900>, max_token_limit=2000),
+ 'summary_memory_3000': functools.partial(<function summary_buffer_memory_builder at 0xffff90aac900>, max_token_limit=3000),
+ 'window_memory_3': functools.partial(<function window_buffer_memory_builder at 0xffff90ad71a0>, k=3),
+ 'window_memory_5': functools.partial(<function window_buffer_memory_builder at 0xffff90ad71a0>, k=5),
+ 'window_memory_7': functools.partial(<function window_buffer_memory_builder at 0xffff90ad71a0>, k=7)}
+2024-09-04 23:34:47,397 - app.chat.logger - INFO - <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+2024-09-04 23:34:48,130 - app.chat.logger - INFO - >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+2024-09-04 23:34:48,130 - app.chat.logger - INFO - Available splitters:
+{'recursive_character': functools.partial(<function recursive_character_text_splitter_builder at 0xffff76d5f060>, chunk_size=4000, chunk_overlap=200),
+ 'semantic_openai_small': functools.partial(<function semantic_chunker_builder at 0xffff76d5f1a0>, embedding='openai_small')}
+2024-09-04 23:34:48,130 - app.chat.logger - INFO - --------------------------------------------------
+2024-09-04 23:34:48,130 - app.chat.logger - INFO - Available embeddings:
+{'openai_large': <langchainX.embedding.embedding.Embedding object at 0xffff90b2c990>,
+ 'openai_small': <langchainX.embedding.embedding.Embedding object at 0xffff90e66390>}
+2024-09-04 23:34:48,130 - app.chat.logger - INFO - --------------------------------------------------
+2024-09-04 23:34:48,131 - app.chat.logger - INFO - Available vector stores:
+{'recursive_character': [ChromaStore(store=<langchain_chroma.vectorstores.Chroma object at 0xffff9036da10>, index_name='vector_store/docs-recursive_character-openai_small', embedding=<langchainX.embedding.embedding.Embedding object at 0xffff90e66390>, id_key='my_id', __fields_set__={'embedding', 'store', 'index_name', 'id_key'}),
+                         ChromaStore(store=<langchain_chroma.vectorstores.Chroma object at 0xffff74373a10>, index_name='vector_store/docs-recursive_character-openai_large', embedding=<langchainX.embedding.embedding.Embedding object at 0xffff90b2c990>, id_key='my_id', __fields_set__={'embedding', 'store', 'index_name', 'id_key'})],
+ 'semantic_openai_small': [ChromaStore(store=<langchain_chroma.vectorstores.Chroma object at 0xffff7416a490>, index_name='vector_store/docs-semantic_openai_small-openai_small', embedding=<langchainX.embedding.embedding.Embedding object at 0xffff90e66390>, id_key='my_id', __fields_set__={'embedding', 'store', 'index_name', 'id_key'}),
+                           ChromaStore(store=<langchain_chroma.vectorstores.Chroma object at 0xffff73faf6d0>, index_name='vector_store/docs-semantic_openai_small-openai_large', embedding=<langchainX.embedding.embedding.Embedding object at 0xffff90b2c990>, id_key='my_id', __fields_set__={'embedding', 'store', 'index_name', 'id_key'})]}
+2024-09-04 23:34:48,131 - app.chat.logger - INFO - --------------------------------------------------
+2024-09-04 23:34:48,131 - app.chat.logger - INFO - Available retrievers: 
+{'chroma_large_recursive': functools.partial(<function chroma_retriever_builder at 0xffff76d5fb00>, splitter_name='recursive_character', embedding_name='openai_large', search_kwargs={'k': 3}),
+ 'chroma_large_semantic': functools.partial(<function chroma_retriever_builder at 0xffff76d5fb00>, splitter_name='semantic_openai_small', embedding_name='openai_large', search_kwargs={'k': 3}),
+ 'chroma_small_recursive': functools.partial(<function chroma_retriever_builder at 0xffff76d5fb00>, splitter_name='recursive_character', embedding_name='openai_small', search_kwargs={'k': 3}),
+ 'chroma_small_semantic': functools.partial(<function chroma_retriever_builder at 0xffff76d5fb00>, splitter_name='semantic_openai_small', embedding_name='openai_small', search_kwargs={'k': 3})}
+2024-09-04 23:34:48,131 - app.chat.logger - INFO - <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+2024-09-04 23:36:16,758 - app.chat.logger - INFO - >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+2024-09-04 23:36:16,759 - app.chat.logger - INFO - Chat initiatied with components:
+2024-09-04 23:36:16,759 - app.chat.logger - INFO - LLM: gpt-4o-mini
+2024-09-04 23:36:16,759 - app.chat.logger - INFO - Retriever: chroma_small_semantic
+2024-09-04 23:36:16,760 - app.chat.logger - INFO - Memory: summary_memory_1000
+2024-09-04 23:36:16,760 - app.chat.logger - INFO - Condense Question LLM: {'chat_name': 'OpenAI', 'model_name': 'gpt-4o'}
+2024-09-04 23:36:16,760 - app.chat.logger - INFO - <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+2024-09-04 23:39:32,646 - app.chat.logger - INFO - >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+2024-09-04 23:39:32,646 - app.chat.logger - INFO - Chat initiatied with components:
+2024-09-04 23:39:32,646 - app.chat.logger - INFO - LLM: gpt-4o-mini
+2024-09-04 23:39:32,647 - app.chat.logger - INFO - Retriever: chroma_large_semantic
+2024-09-04 23:39:32,647 - app.chat.logger - INFO - Memory: summary_memory_3000
+2024-09-04 23:39:32,647 - app.chat.logger - INFO - Condense Question LLM: {'chat_name': 'OpenAI', 'model_name': 'gpt-4o'}
+2024-09-04 23:39:32,647 - app.chat.logger - INFO - <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+2024-09-04 23:40:16,281 - app.chat.logger - INFO - >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+2024-09-04 23:40:16,282 - app.chat.logger - INFO - Chat initiatied with components:
+2024-09-04 23:40:16,282 - app.chat.logger - INFO - LLM: gpt-4o-mini
+2024-09-04 23:40:16,282 - app.chat.logger - INFO - Retriever: chroma_large_semantic
+2024-09-04 23:40:16,282 - app.chat.logger - INFO - Memory: summary_memory_3000
+2024-09-04 23:40:16,283 - app.chat.logger - INFO - Condense Question LLM: {'chat_name': 'OpenAI', 'model_name': 'gpt-4o'}
+2024-09-04 23:40:16,283 - app.chat.logger - INFO - <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
