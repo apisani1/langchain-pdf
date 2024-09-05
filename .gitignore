@@ -13,5 +13,9 @@ dump.rdb
 *.code-workspace
 docs-*/
 *.sql*
+*.log
+logs
+
+
 
 
