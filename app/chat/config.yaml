@@ -32,40 +32,29 @@ memory:
   #   builder: buffer_memory_builder
   #   module: app.chat.memories.buffer_memory
 
-  # - name: window_memory_3
-  #   builder: window_buffer_memory_builder
-  #   module: app.chat.memories.window_memory
-  #   params:
-  #     k: 3
-
-  # - name: window_memory_5
-  #   builder: window_buffer_memory_builder
-  #   module: app.chat.memories.window_memory
-  #   params:
-  #     k: 5
-
   # - name: window_memory_7
   #   builder: window_buffer_memory_builder
   #   module: app.chat.memories.window_memory
   #   params:
   #     k: 7
 
-  # - name: summary_memory_1000
-  #   builder: summary_buffer_memory_builder
-  #   module: app.chat.memories.summary_memory
-  #   params:
-  #     max_token_limit: 1000
-
-  # - name: summary_memory_2000
-  #   builder: summary_buffer_memory_builder
-  #   module: app.chat.memories.summary_memory
-  #   params:
-  #     max_token_limit: 2000
+  - name: token_buffer_memory_3000
+    builder: token_buffer_memory_builder
+    module: app.chat.memories.token_buffer_memory
+    params:
+      model_kwargs:
+        chat_name: OpenAI
+        model_name: gpt-4o
+      max_token_limit: 3000
 
   - name: summary_memory_3000
     builder: summary_buffer_memory_builder
     module: app.chat.memories.summary_memory
     params:
+      model_kwargs:
+          chat_name: OpenAI
+          model_name: gpt-4o
+          temperature: 0.0
       max_token_limit: 3000
 
 embedding:
