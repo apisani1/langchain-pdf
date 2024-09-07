@@ -19,7 +19,7 @@ services:
     volumes:
       - /Users/antonio/Desktop/DataScience/MyCode/langchainX:/chat_pdf/langchainX # Temporary fix
       - ./migrations:/chat_pdf/migrations
-      - vector_store:/chat_pdf/vector_store
+      - embeddings:/chat_pdf/embeddings
       - shared_tmp:/tmp
     environment:
       - APP_ENV=production
@@ -45,7 +45,7 @@ services:
     command: celery -A app.celery.worker.celery_app worker --concurrency=2 --loglevel=INFO
     volumes:
       - /Users/antonio/Desktop/DataScience/MyCode/langchainX:/chat_pdf/langchainX # Temporary fix
-      - vector_store:/chat_pdf/vector_store
+      - embeddings:/chat_pdf/embeddings
       - shared_tmp:/tmp
     environment:
       - APP_ENV=production
@@ -104,7 +104,7 @@ volumes:
   redis_data:
   postgres_data:
   file_uploads:
-  vector_store:
+  embeddings:
   shared_tmp:
       driver: local
 
