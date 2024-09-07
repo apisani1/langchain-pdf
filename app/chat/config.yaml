@@ -28,39 +28,39 @@ llm:
   #     model_name: chat-bison
 
 memory:
-  - name: buffer_memory
-    builder: buffer_memory_builder
-    module: app.chat.memories.buffer_memory
+  # - name: buffer_memory
+  #   builder: buffer_memory_builder
+  #   module: app.chat.memories.buffer_memory
 
-  - name: window_memory_3
-    builder: window_buffer_memory_builder
-    module: app.chat.memories.window_memory
-    params:
-      k: 3
+  # - name: window_memory_3
+  #   builder: window_buffer_memory_builder
+  #   module: app.chat.memories.window_memory
+  #   params:
+  #     k: 3
 
-  - name: window_memory_5
-    builder: window_buffer_memory_builder
-    module: app.chat.memories.window_memory
-    params:
-      k: 5
+  # - name: window_memory_5
+  #   builder: window_buffer_memory_builder
+  #   module: app.chat.memories.window_memory
+  #   params:
+  #     k: 5
 
-  - name: window_memory_7
-    builder: window_buffer_memory_builder
-    module: app.chat.memories.window_memory
-    params:
-      k: 7
+  # - name: window_memory_7
+  #   builder: window_buffer_memory_builder
+  #   module: app.chat.memories.window_memory
+  #   params:
+  #     k: 7
 
-  - name: summary_memory_1000
-    builder: summary_buffer_memory_builder
-    module: app.chat.memories.summary_memory
-    params:
-      max_token_limit: 1000
+  # - name: summary_memory_1000
+  #   builder: summary_buffer_memory_builder
+  #   module: app.chat.memories.summary_memory
+  #   params:
+  #     max_token_limit: 1000
 
-  - name: summary_memory_2000
-    builder: summary_buffer_memory_builder
-    module: app.chat.memories.summary_memory
-    params:
-      max_token_limit: 2000
+  # - name: summary_memory_2000
+  #   builder: summary_buffer_memory_builder
+  #   module: app.chat.memories.summary_memory
+  #   params:
+  #     max_token_limit: 2000
 
   - name: summary_memory_3000
     builder: summary_buffer_memory_builder
@@ -83,12 +83,12 @@ embedding:
   #   model: E5
 
 text_splitter:
-  - name: recursive_character
-    builder: recursive_character_text_splitter_builder
-    module: app.chat.text_splitters.recursive
-    params:
-      chunk_size: 4000
-      chunk_overlap: 200
+  # - name: recursive_character
+  #   builder: recursive_character_text_splitter_builder
+  #   module: app.chat.text_splitters.recursive
+  #   params:
+  #     chunk_size: 4000
+  #     chunk_overlap: 200
 
   - name: semantic_openai_small
     builder: semantic_chunker_builder
@@ -96,7 +96,11 @@ text_splitter:
     params:
       embedding: openai_small
 
-
+  - name: semantic_openai_large
+    builder: semantic_chunker_builder
+    module: app.chat.text_splitters.semantic
+    params:
+      embedding: openai_large
 
 vector_store:
   - name: chroma
@@ -114,23 +118,23 @@ vector_store:
   #   module: app.chat.vector_stores.singlestore
 
 retriever:
-  - name: chroma_small_recursive
-    builder: chroma_retriever_builder
-    module: app.chat.vector_stores.chroma
-    params:
-      splitter_name: recursive_character
-      embedding_name: openai_small
-      search_kwargs:
-        k: 3
+  # - name: chroma_small_recursive
+  #   builder: chroma_retriever_builder
+  #   module: app.chat.vector_stores.chroma
+  #   params:
+  #     splitter_name: recursive_character
+  #     embedding_name: openai_small
+  #     search_kwargs:
+  #       k: 3
 
-  - name: chroma_large_recursive
-    builder: chroma_retriever_builder
-    module: app.chat.vector_stores.chroma
-    params:
-      splitter_name: recursive_character
-      embedding_name: openai_large
-      search_kwargs:
-        k: 3
+  # - name: chroma_large_recursive
+  #   builder: chroma_retriever_builder
+  #   module: app.chat.vector_stores.chroma
+  #   params:
+  #     splitter_name: recursive_character
+  #     embedding_name: openai_large
+  #     search_kwargs:
+  #       k: 3
 
   - name: chroma_small_semantic
     builder: chroma_retriever_builder
@@ -145,7 +149,7 @@ retriever:
     builder: chroma_retriever_builder
     module: app.chat.vector_stores.chroma
     params:
-      splitter_name: semantic_openai_small
+      splitter_name: semantic_openai_large
       embedding_name: openai_large
       search_kwargs:
         k: 3

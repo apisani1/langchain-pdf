@@ -184,6 +184,7 @@ PyPika==0.48.9
 pyproject_hooks==1.1.0
 pytesseract==0.3.10
 python-dateutil==2.9.0.post0
+python-docx==1.1.2
 python-dotenv==1.0.0
 python-iso639==2024.4.27
 python-magic==0.4.27

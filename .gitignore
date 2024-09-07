@@ -12,9 +12,11 @@ langchainX.log
 dump.rdb
 *.code-workspace
 docs-*/
+embeddings/
 *.sql*
 *.log
-logs
+logs/
+
 
 
 
