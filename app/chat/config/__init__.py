@@ -17,10 +17,7 @@ class ChatConfig:
     def __init__(self, config_file: str):
         with open(config_file) as f:
             self._yaml_data = yaml.safe_load(f)
-        self._chain_config = self._yaml_data.get("chain", {})
-        self._condense_question_llm = self._chain_config.get(
-            "condense_question_llm", {}
-        )
+        self._condense_question_llm_kwargs = None
         self._splitter_map = None
         self._llm_map = None
         self._embedding_map = None
@@ -32,13 +29,13 @@ class ChatConfig:
     @property
     def document_splitters(self):
         if self._splitter_map is None:
-            self._splitter_map = self.build_map("text_splitter")
+            self._splitter_map = self._build_map("text_splitter")
         return self._splitter_map
 
     @property
     def llm_map(self):
         if self._llm_map is None:
-            self._llm_map = self.build_map("llm")
+            self._llm_map = self._build_map("llm")
         return self._llm_map
 
     @property
@@ -50,32 +47,35 @@ class ChatConfig:
     @property
     def vector_stores(self):
         if self._vector_stores is None:
-            self._vector_stores, self._vector_store_map = self.build_vector_stores()
+            self._vector_stores = self._build_vector_store_list()
         return self._vector_stores
 
     @property
     def vector_store_map(self):
         if self._vector_store_map is None:
-            self._vector_stores, self._vector_store_map = self.build_vector_stores()
+            self._vector_store_map = self._build_vector_store_map()
         return self._vector_store_map
 
     @property
     def retriever_map(self):
         if self._retriever_map is None:
-            self._vector_stores, self._vector_store_map = self.build_vector_stores()
-            self._retriever_map = self.build_map("retriever")
-            self._vector_stores = self._prune_vector_stores()
+            self._retriever_map = self._build_map("retriever")
         return self._retriever_map
 
     @property
     def memory_map(self):
         if self._memory_map is None:
-            self._memory_map = self.build_map("memory")
+            self._memory_map = self._build_map("memory")
         return self._memory_map
 
     @property
     def condense_question_llm_kwargs(self):
-        return self._condense_question_llm
+        if self._condense_question_llm_kwargs is None:
+            chain_config = self._yaml_data.get("chain", {})
+            self._condense_question_llm_kwargs = chain_config.get(
+                "condense_question_llm", {}
+            )
+        return self._condense_question_llm_kwargs
 
     def _init_component(self, component: dict):
         env_variables = component.get("env", {})
@@ -97,15 +97,11 @@ class ChatConfig:
             )
         return embedding_map
 
-    def build_vector_stores(self):
-        vector_stores = {}
+    def _build_vector_store_map(self) -> dict:
         vector_store_map = {}
-
         for splitter_name in self.document_splitters.keys():
 
             store_map_level2 = {}
-            splitter_store_list = []
-
             for vector_store in self._yaml_data["vector_store"]:
                 self._init_component(vector_store)
                 vector_store_name = vector_store["name"]
@@ -114,24 +110,20 @@ class ChatConfig:
                     vector_store_module, vector_store["builder"]
                 )
 
-                stores = []
                 store_map_level3 = {}
                 for embedding_name, embedding in self.embedding_map.items():
                     store = vector_store_builder(
                         splitter_name, embedding_name, embedding
                     )
-                    stores.append(store)
                     store_map_level3[embedding_name] = store
 
-                splitter_store_list.extend(stores)
                 store_map_level2[vector_store_name] = store_map_level3
 
-            vector_stores[splitter_name] = splitter_store_list
             vector_store_map[splitter_name] = store_map_level2
 
-        return vector_stores, vector_store_map
+        return vector_store_map
 
-    def _prune_vector_stores(self) -> dict:
+    def _build_vector_store_list(self) -> dict:
         used_vector_stores = {}
         for retriever in self._yaml_data["retriever"]:
             vector_store_name = retriever["module"].split(".")[-1]
@@ -141,11 +133,11 @@ class ChatConfig:
             if splitter_name not in used_vector_stores:
                 used_vector_stores[splitter_name] = []
             used_vector_stores[splitter_name].append(
-                self._vector_store_map[splitter_name][vector_store_name][embedding_name]
+                self.vector_store_map[splitter_name][vector_store_name][embedding_name]
             )
         return used_vector_stores
 
-    def build_map(self, component_type: str) -> dict:
+    def _build_map(self, component_type: str) -> dict:
         component_map = {}
         for component in self._yaml_data[component_type]:
             self._init_component(component)
