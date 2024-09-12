@@ -1,7 +1,7 @@
 from ..config import chat_config
 
 
-memory_map = chat_config.build_map("memory")
+memory_map = chat_config.memory_map
 
 import os
 from pprint import pformat

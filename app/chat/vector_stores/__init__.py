@@ -1,8 +1,6 @@
 from ..config import chat_config
 
-
-chat_config.build_vector_stores()
-retriever_map = chat_config.build_map("retriever")
+retriever_map = chat_config.retriever_map
 
 import os
 from pprint import pformat

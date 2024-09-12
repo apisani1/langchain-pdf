@@ -1,7 +1,7 @@
 from ..config import chat_config
 
 
-llm_map = chat_config.build_map("llm")
+llm_map = chat_config.llm_map
 
 import os
 from pprint import pformat
