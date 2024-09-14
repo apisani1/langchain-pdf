@@ -1,6 +1,9 @@
 import importlib
 import os
-from functools import partial
+from functools import (
+    cached_property,
+    partial,
+)
 
 import yaml  # type: ignore
 from dotenv import (
@@ -17,65 +20,39 @@ class ChatConfig:
     def __init__(self, config_file: str):
         with open(config_file) as f:
             self._yaml_data = yaml.safe_load(f)
-        self._condense_question_llm_kwargs = None
-        self._splitter_map = None
-        self._llm_map = None
-        self._embedding_map = None
-        self._vector_stores = None
-        self._vector_store_map = None
-        self._retriever_map = None
-        self._memory_map = None
 
-    @property
+    @cached_property
     def document_splitters(self):
-        if self._splitter_map is None:
-            self._splitter_map = self._build_map("text_splitter")
-        return self._splitter_map
+        return self._build_map("text_splitter")
 
-    @property
+    @cached_property
     def llm_map(self):
-        if self._llm_map is None:
-            self._llm_map = self._build_map("llm")
-        return self._llm_map
+        return self._build_map("llm")
 
-    @property
+    @cached_property
     def embedding_map(self):
-        if self._embedding_map is None:
-            self._embedding_map = self._build_embeddings()
-        return self._embedding_map
+        return self._build_embeddings()
 
-    @property
+    @cached_property
     def vector_stores(self):
-        if self._vector_stores is None:
-            self._vector_stores = self._build_vector_store_list()
-        return self._vector_stores
+        return self._build_vector_store_list()
 
-    @property
+    @cached_property
     def vector_store_map(self):
-        if self._vector_store_map is None:
-            self._vector_store_map = self._build_vector_store_map()
-        return self._vector_store_map
+        return self._build_vector_store_map()
 
-    @property
+    @cached_property
     def retriever_map(self):
-        if self._retriever_map is None:
-            self._retriever_map = self._build_map("retriever")
-        return self._retriever_map
+        return self._build_map("retriever")
 
-    @property
+    @cached_property
     def memory_map(self):
-        if self._memory_map is None:
-            self._memory_map = self._build_map("memory")
-        return self._memory_map
+        return self._build_map("memory")
 
-    @property
+    @cached_property
     def condense_question_llm_kwargs(self):
-        if self._condense_question_llm_kwargs is None:
-            chain_config = self._yaml_data.get("chain", {})
-            self._condense_question_llm_kwargs = chain_config.get(
-                "condense_question_llm", {}
-            )
-        return self._condense_question_llm_kwargs
+        chain_config = self._yaml_data.get("chain", {})
+        return chain_config.get("condense_question_llm", {})
 
     def _init_component(self, component: dict):
         env_variables = component.get("env", {})

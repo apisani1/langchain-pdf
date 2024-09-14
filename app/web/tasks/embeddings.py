@@ -13,10 +13,10 @@ def process_document(pdf_id: int):
     pdf = Pdf.find_by(id=pdf_id)
 
     if os.getenv("APP_ENV") == "development":
-        logger.info(f"*****Processing document {pdf.id}: {pdf.name}")
+        logger.info(f"***********Processing document {pdf.id}: {pdf.name}")
 
     with download(pdf.id) as pdf_path:
         create_embeddings_for_pdf(pdf.id, pdf_path, pdf.name)
 
     if os.getenv("APP_ENV") == "development":
-        logger.info(f"****Finished document {pdf.id}: {pdf.name}")
+        logger.info(f"***********Finished document {pdf.id}: {pdf.name}")
