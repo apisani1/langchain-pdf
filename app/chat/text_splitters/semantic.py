@@ -16,7 +16,7 @@ def semantic_chunker_builder(
     breakpoint_threshold_amount: Optional[float] = None,
     number_of_chunks: Optional[int] = None,
     sentence_split_regex: str = r"(?<=[.?!])\s+",
-):
+) -> SemanticChunker:
     return SemanticChunker(
         embeddings=chat_config.embedding_map[embeddings_name],
         buffer_size=buffer_size,

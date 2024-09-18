@@ -19,7 +19,7 @@ def create_embeddings_for_pdf(doc_id: str, file_path: str, doc_name: str = ""):
 
     create_embeddings_for_pdf('123456', '/path/to/pdf')
     """
-    for text_splitter_name, text_splitter in chat_config.document_splitters.items():
+    for text_splitter_name, text_splitter_builder in chat_config.splitter_map.items():
 
         logger.info(f"***********Splitting docs with: {text_splitter_name}")
 
@@ -28,7 +28,7 @@ def create_embeddings_for_pdf(doc_id: str, file_path: str, doc_name: str = ""):
             mode="paged",
             strategy="fast",
             chunk_it=True,
-            text_splitter=text_splitter,
+            text_splitter=text_splitter_builder(),
         )
 
         if not docs:

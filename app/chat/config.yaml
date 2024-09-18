@@ -72,24 +72,24 @@ embedding:
   #   model: E5
 
 text_splitter:
-  # - name: recursive_character
-  #   builder: recursive_character_text_splitter_builder
-  #   module: app.chat.text_splitters.recursive
+  - name: recursive_character
+    builder: recursive_character_text_splitter_builder
+    module: app.chat.text_splitters.recursive
+    params:
+      chunk_size: 4000
+      chunk_overlap: 200
+
+  # - name: semantic_openai_small
+  #   builder: semantic_chunker_builder
+  #   module: app.chat.text_splitters.semantic
   #   params:
-  #     chunk_size: 4000
-  #     chunk_overlap: 200
+  #     embeddings_name: openai_small
 
-  - name: semantic_openai_small
-    builder: semantic_chunker_builder
-    module: app.chat.text_splitters.semantic
-    params:
-      embedding: openai_small
-
-  - name: semantic_openai_large
-    builder: semantic_chunker_builder
-    module: app.chat.text_splitters.semantic
-    params:
-      embedding: openai_large
+  # - name: semantic_openai_large
+  #   builder: semantic_chunker_builder
+  #   module: app.chat.text_splitters.semantic
+  #   params:
+  #     embeddings_name: openai_large
 
 vector_store:
   - name: chroma
@@ -107,41 +107,41 @@ vector_store:
   #   module: app.chat.vector_stores.singlestore
 
 retriever:
-  # - name: chroma_small_recursive
-  #   builder: chroma_retriever_builder
-  #   module: app.chat.vector_stores.chroma
-  #   params:
-  #     splitter_name: recursive_character
-  #     embedding_name: openai_small
-  #     search_kwargs:
-  #       k: 3
-
-  # - name: chroma_large_recursive
-  #   builder: chroma_retriever_builder
-  #   module: app.chat.vector_stores.chroma
-  #   params:
-  #     splitter_name: recursive_character
-  #     embedding_name: openai_large
-  #     search_kwargs:
-  #       k: 3
-
-  - name: chroma_small_semantic
+  - name: chroma_small_recursive
     builder: chroma_retriever_builder
     module: app.chat.vector_stores.chroma
     params:
-      splitter_name: semantic_openai_small
+      splitter_name: recursive_character
       embedding_name: openai_small
       search_kwargs:
         k: 3
 
-  - name: chroma_large_semantic
+  - name: chroma_large_recursive
     builder: chroma_retriever_builder
     module: app.chat.vector_stores.chroma
     params:
-      splitter_name: semantic_openai_large
+      splitter_name: recursive_character
       embedding_name: openai_large
       search_kwargs:
         k: 3
+
+  # - name: chroma_small_semantic
+  #   builder: chroma_retriever_builder
+  #   module: app.chat.vector_stores.chroma
+  #   params:
+  #     splitter_name: semantic_openai_small
+  #     embedding_name: openai_small
+  #     search_kwargs:
+  #       k: 3
+
+  # - name: chroma_large_semantic
+  #   builder: chroma_retriever_builder
+  #   module: app.chat.vector_stores.chroma
+  #   params:
+  #     splitter_name: semantic_openai_large
+  #     embedding_name: openai_large
+  #     search_kwargs:
+  #       k: 3
 
 
   # - name: pinecone_1

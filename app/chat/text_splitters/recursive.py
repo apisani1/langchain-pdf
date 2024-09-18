@@ -12,7 +12,7 @@ def recursive_character_text_splitter_builder(
     is_separator_regex: bool = False,
     add_start_index: bool = False,
     strip_whitespace: bool = True,
-):
+) -> RecursiveCharacterTextSplitter:
     return RecursiveCharacterTextSplitter(
         chunk_size=chunk_size,
         chunk_overlap=chunk_overlap,

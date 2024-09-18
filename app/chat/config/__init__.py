@@ -23,7 +23,7 @@ class ChatConfig:
             self._yaml_data = yaml.safe_load(f)
 
     @cached_property
-    def document_splitters(self):
+    def splitter_map(self):
         return self._build_map("text_splitter")
 
     @cached_property
@@ -93,7 +93,7 @@ class ChatConfig:
 
     def _build_vector_store_map(self) -> dict:
         vector_store_map = {}
-        for splitter_name in self.document_splitters.keys():
+        for splitter_name in self.splitter_map.keys():
             store_map_level2 = {}
             for vector_store in self._yaml_data["vector_store"]:
                 self._init_component(vector_store)

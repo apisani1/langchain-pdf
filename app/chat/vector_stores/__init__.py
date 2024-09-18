@@ -8,7 +8,7 @@ from ..logger import logger
 
 if os.getenv("APP_ENV") == "development":
     logger.info(">" * 50)
-    logger.info("Available splitters:\n" + pformat(chat_config.document_splitters))
+    logger.info("Available splitters:\n" + pformat(chat_config.splitter_map))
     logger.info("-" * 50)
     logger.info("Available embeddings:\n" + pformat(chat_config.embedding_map))
     logger.info("-" * 50)
