@@ -27,7 +27,7 @@ def create_embeddings_for_pdf(doc_id: str, file_path: str, doc_name: str = ""):
             file_path,
             mode="paged",
             strategy="fast",
-            chunk_it=True,
+            # chunk_it=True,
             text_splitter=text_splitter_builder(),
         )
 

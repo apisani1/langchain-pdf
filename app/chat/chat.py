@@ -71,4 +71,18 @@ def build_chat(chat_args: ChatArgs):
         condense_question_llm=condense_question_llm,
         retriever=retriever,
         memory=memory,
+    ).with_config(
+        {
+            "run_id": chat_args.conversation_id,
+            "tags": [
+                f"llm: {llm_name}",
+                f"memory: {memory_name}",
+                f"retriever: {retriever_name}",
+            ],
+            "metadata": {
+                "user_id": chat_args.metadata.user_id,
+                "pdf_id": chat_args.pdf_id,
+                "streaming": chat_args.streaming,
+            }
+        }
     )
