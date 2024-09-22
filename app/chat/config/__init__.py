@@ -11,6 +11,7 @@ from dotenv import (
     load_dotenv,
 )
 
+
 from langchainX.embedding import Embedding
 
 
@@ -102,10 +103,11 @@ class ChatConfig:
                 vector_store_builder = getattr(
                     vector_store_module, vector_store["builder"]
                 )
+                vector_store_kwargs = vector_store.get("params", {})
                 store_map_level3 = {}
                 for embedding_name, embedding in self.embedding_map.items():
                     store = vector_store_builder(
-                        splitter_name, embedding_name, embedding
+                        splitter_name, embedding_name, embedding, **vector_store_kwargs
                     )
                     store_map_level3[embedding_name] = store
                 store_map_level2[vector_store_name] = store_map_level3

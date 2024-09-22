@@ -96,6 +96,18 @@ vector_store:
     builder: chroma_vector_store_builder
     module: app.chat.vector_stores.chroma
 
+  - name: multi_vector
+    builder: multi_vector_store_builder
+    module: app.chat.vector_stores.multi_vector
+    params:
+      functor:
+        - summary
+        - [question, {q: 2}]
+      llm:
+        model_name: gpt-4o-mini
+      add_originals: true
+      
+
   # - name: pinecone
   #   builder: pinecone_vector_store_builder
   #   module: app.chat.vector_stores.pinecone
@@ -119,6 +131,24 @@ retriever:
   - name: chroma_large_recursive
     builder: chroma_retriever_builder
     module: app.chat.vector_stores.chroma
+    params:
+      splitter_name: recursive_character
+      embedding_name: openai_large
+      search_kwargs:
+        k: 3
+
+  - name: multi_vector_small_recursive
+    builder: multi_vector_retriever_builder
+    module: app.chat.vector_stores.multi_vector
+    params:
+      splitter_name: recursive_character
+      embedding_name: openai_small
+      search_kwargs:
+        k: 3
+
+  - name: multi_vector__large_recursive
+    builder: multi_vector_retriever_builder
+    module: app.chat.vector_stores.multi_vector
     params:
       splitter_name: recursive_character
       embedding_name: openai_large

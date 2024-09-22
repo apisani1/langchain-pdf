@@ -1,23 +1,29 @@
 import os
-from typing import Optional
+from typing import (
+    Any,
+    Optional,
+)
 
-from app.chat.models import ChatArgs
+
 from langchain.schema import BaseRetriever
 from langchainX.embedding import Embedding
 from langchainX.store.pinecone_store import PineconeStore
 
+from app.chat.models import ChatArgs
+
 
 def pinecone_vector_store_builder(
-    splitter_name: str, embedding_name: str, embedding: Embedding
+    splitter_name: str, embedding_name: str, embedding: Embedding, **kwargs: Any
 ) -> PineconeStore:
     return PineconeStore.connect(
-        index_name=os.getenv("PINECONE_INDEX_NAME")
+        index_name=os.getenv("PINECONE_INDEX_NAME", "docs")
         + "-"
         + splitter_name
         + "-"
         + embedding_name,
         namespace=os.getenv("PINECONE_NAMESPACE"),
         embedding=embedding,
+        **kwargs,
     )
 
 
@@ -31,6 +37,6 @@ def pinecone_retriever_builder(
 
     search_kwargs = search_kwargs or {}
     search_kwargs.update({"filter": {"doc_id": chat_args.pdf_id}})
-    return chat_config.vector_store_map[splitter_name]["pinecone"][embedding_name].as_retriever(
-        search_kwargs=search_kwargs
-    )
+    return chat_config.vector_store_map[splitter_name]["pinecone"][
+        embedding_name
+    ].as_retriever(search_kwargs=search_kwargs)

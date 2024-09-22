@@ -1,22 +1,30 @@
 import os
-from typing import Optional
+from typing import (
+    Any,
+    Optional,
+)
 
-from app.chat.models import ChatArgs
 from langchain.schema import BaseRetriever
 from langchainX.embedding import Embedding
 from langchainX.store.chroma_store import ChromaStore
 
+from app.chat.models import ChatArgs
+
 
 def chroma_vector_store_builder(
-    splitter_name, embedding_name: str, embedding: Embedding
+    splitter_name,
+    embedding_name: str,
+    embedding: Embedding,
+    **kwargs: Any,
 ) -> ChromaStore:
     return ChromaStore.connect(
-        index_name=os.getenv("CHROMA_INDEX_NAME")
+        index_name=os.getenv("CHROMA_INDEX_NAME", "embeddings/chroma")
         + "-"
         + splitter_name
         + "-"
         + embedding_name,
         embedding=embedding,
+        **kwargs,
     )
 
 
