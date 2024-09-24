@@ -5,9 +5,11 @@ instance
 .DS_Store
 .vscode/
 __pycache__/
+.ipynb_checkpoints/
 .flake8
 .isort.cfg
 .mypy.ini
+langchain.db
 langchainX.log
 dump.rdb
 *.code-workspace

@@ -2,14 +2,16 @@ chain:
   condense_question_llm:
     chat_name: OpenAI
     model_name: gpt-4o
+    cache: false
 
 llm:
-  - name: gpt-4o
-    builder: build_llm
-    module: app.chat.llms.chat_model
-    params:
-      chat_name: OpenAI
-      model_name: gpt-4o
+  # - name: gpt-4o
+  #   builder: build_llm
+  #   module: app.chat.llms.chat_model
+  #   params:
+  #     chat_name: OpenAI
+  #     model_name: gpt-4o
+  #     cache: false
 
   - name: gpt-4o-mini
     builder: build_llm
@@ -17,6 +19,7 @@ llm:
     params:
       chat_name: OpenAI
       model_name: gpt-4o-mini
+      cache: false
 
   # - name: chat-bison
   #   builder: build_llm
@@ -38,14 +41,14 @@ memory:
   #   params:
   #     k: 7
 
-  - name: token_buffer_memory_3000
-    builder: token_buffer_memory_builder
-    module: app.chat.memories.token_buffer_memory
-    params:
-      model_kwargs:
-        chat_name: OpenAI
-        model_name: gpt-4o
-      max_token_limit: 3000
+  # - name: token_buffer_memory_3000
+  #   builder: token_buffer_memory_builder
+  #   module: app.chat.memories.token_buffer_memory
+  #   params:
+  #     model_kwargs:
+  #       chat_name: OpenAI
+  #       model_name: gpt-4o
+  #     max_token_limit: 3000
 
   - name: summary_memory_3000
     builder: summary_buffer_memory_builder
@@ -55,18 +58,22 @@ memory:
           chat_name: OpenAI
           model_name: gpt-4o
           temperature: 0.0
-      max_token_limit: 3000
+      max_token_limit: 4000
 
 embedding:
   - name: openai_small
     model: OpenAI
     params:
       model_name: text-embedding-3-small
+      cached: true
+      cache_file_path: embeddings/embedding_cache.db
 
-  - name: openai_large
-    model: OpenAI
-    params:
-      model_name: text-embedding-3-large
+  # - name: openai_large
+  #   model: OpenAI
+  #   params:
+  #     model_name: text-embedding-3-large
+  #     cached: true
+  #     cache_file_path: embeddings/embedding_cache.db
 
   # - name: microsoft
   #   model: E5
@@ -96,16 +103,16 @@ vector_store:
     builder: chroma_vector_store_builder
     module: app.chat.vector_stores.chroma
 
-  - name: multi_vector
-    builder: multi_vector_store_builder
-    module: app.chat.vector_stores.multi_vector
-    params:
-      functor:
-        - summary
-        - [question, {q: 2}]
-      llm:
-        model_name: gpt-4o-mini
-      add_originals: true
+  # - name: multi_vector
+  #   builder: multi_vector_store_builder
+  #   module: app.chat.vector_stores.multi_vector
+  #   params:
+  #     functor:
+  #       - summary
+  #       - [question, {q: 2}]
+  #     llm:
+  #       model_name: gpt-4o-mini
+  #     add_originals: true
       
 
   # - name: pinecone
@@ -119,41 +126,52 @@ vector_store:
   #   module: app.chat.vector_stores.singlestore
 
 retriever:
-  - name: chroma_small_recursive
+  - name: chroma_similarity
     builder: chroma_retriever_builder
     module: app.chat.vector_stores.chroma
     params:
       splitter_name: recursive_character
       embedding_name: openai_small
+      search_type: similarity
       search_kwargs:
-        k: 3
+        k: 5
 
-  - name: chroma_large_recursive
+  - name: chroma_mmr
     builder: chroma_retriever_builder
     module: app.chat.vector_stores.chroma
     params:
       splitter_name: recursive_character
-      embedding_name: openai_large
-      search_kwargs:
-        k: 3
-
-  - name: multi_vector_small_recursive
-    builder: multi_vector_retriever_builder
-    module: app.chat.vector_stores.multi_vector
-    params:
-      splitter_name: recursive_character
       embedding_name: openai_small
+      search_type: mmr
       search_kwargs:
-        k: 3
+        k: 5
 
-  - name: multi_vector__large_recursive
-    builder: multi_vector_retriever_builder
-    module: app.chat.vector_stores.multi_vector
-    params:
-      splitter_name: recursive_character
-      embedding_name: openai_large
-      search_kwargs:
-        k: 3
+  # - name: chroma_large_recursive
+  #   builder: chroma_retriever_builder
+  #   module: app.chat.vector_stores.chroma
+  #   params:
+  #     splitter_name: recursive_character
+  #     embedding_name: openai_large
+  #     search_kwargs:
+  #       k: 3
+
+  # - name: multi_vector_small_recursive
+  #   builder: multi_vector_retriever_builder
+  #   module: app.chat.vector_stores.multi_vector
+  #   params:
+  #     splitter_name: recursive_character
+  #     embedding_name: openai_small
+  #     search_kwargs:
+  #       k: 3
+
+  # - name: multi_vector__large_recursive
+  #   builder: multi_vector_retriever_builder
+  #   module: app.chat.vector_stores.multi_vector
+  #   params:
+  #     splitter_name: recursive_character
+  #     embedding_name: openai_large
+  #     search_kwargs:
+  #       k: 3
 
   # - name: chroma_small_semantic
   #   builder: chroma_retriever_builder

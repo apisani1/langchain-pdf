@@ -49,6 +49,7 @@ def multi_vector_retriever_builder(
     chat_args: ChatArgs,
     splitter_name: str,
     embedding_name: str,
+    search_type: str = "similarity",
     search_kwargs: Optional[dict] = None,
 ) -> BaseRetriever:
     from app.chat.config import chat_config
@@ -57,4 +58,4 @@ def multi_vector_retriever_builder(
     search_kwargs.update({"filter": {"doc_id": chat_args.pdf_id}})
     return chat_config.vector_store_map[splitter_name]["multi_vector"][
         embedding_name
-    ].as_retriever(search_kwargs=search_kwargs)
+    ].as_retriever(search_type=search_type, search_kwargs=search_kwargs)
