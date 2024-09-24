@@ -58,7 +58,7 @@ memory:
           chat_name: OpenAI
           model_name: gpt-4o
           temperature: 0.0
-      max_token_limit: 4000
+      max_token_limit: 3000
 
 embedding:
   - name: openai_small
