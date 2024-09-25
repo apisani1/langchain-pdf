@@ -1,3 +1,5 @@
+from langchain.retrievers.multi_query import MultiQueryRetriever
+
 from app.chat.config import chat_config
 from app.chat.chains.retrieval import StreamingConversationalRetrievalChain
 from app.chat.llms import llm_map
@@ -52,6 +54,13 @@ def build_chat(chat_args: ChatArgs):
         chat_args, **chat_config.condense_question_llm_kwargs, streaming=False
     )
 
+    if chat_config.multi_query:
+        retriever = MultiQueryRetriever.from_llm(
+            llm=condense_question_llm,
+            retriever=retriever,
+            include_original=True
+        )
+
     import os
     from .logger import logger
 
@@ -60,6 +69,7 @@ def build_chat(chat_args: ChatArgs):
         logger.info(f"Chat initiatied with components:")
         logger.info(f"LLM: {llm_name}")
         logger.info(f"Retriever: {retriever_name}")
+        logger.info(f"Multi Query: {chat_config.multi_query}")
         logger.info(f"Memory: {memory_name}")
         logger.info(
             f"Condense Question LLM: {chat_config.condense_question_llm_kwargs}"
@@ -83,6 +93,6 @@ def build_chat(chat_args: ChatArgs):
                 "user_id": chat_args.metadata.user_id,
                 "pdf_id": chat_args.pdf_id,
                 "streaming": chat_args.streaming,
-            }
+            },
         }
     )

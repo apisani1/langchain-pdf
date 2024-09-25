@@ -24,37 +24,42 @@ class ChatConfig:
             self._yaml_data = yaml.safe_load(f)
 
     @cached_property
-    def splitter_map(self):
+    def splitter_map(self) -> dict:
         return self._build_map("text_splitter")
 
     @cached_property
-    def llm_map(self):
+    def llm_map(self) -> dict:
         return self._build_map("llm")
 
     @cached_property
-    def embedding_map(self):
+    def embedding_map(self) -> dict:
         return self._build_embeddings()
 
     @cached_property
-    def vector_store_map(self):
+    def vector_store_map(self) -> dict:
         return self._build_vector_store_map()
 
     @cached_property
-    def vector_stores(self):
+    def vector_stores(self) -> dict:
         return self._build_vector_store_list()
 
     @cached_property
-    def retriever_map(self):
+    def retriever_map(self) -> dict:
         return self._build_map("retriever")
 
     @cached_property
-    def memory_map(self):
+    def memory_map(self) -> dict:
         return self._build_map("memory")
 
     @cached_property
-    def condense_question_llm_kwargs(self):
+    def condense_question_llm_kwargs(self) -> dict:
         chain_config = self._yaml_data.get("chain", {})
         return chain_config.get("condense_question_llm", {})
+
+    @cached_property
+    def multi_query(self) -> bool:
+        chain_config = self._yaml_data.get("chain", {})
+        return chain_config.get("multi_query", False)
 
     def _init_component(self, component: dict):
         env_variables = component.get("env", {})

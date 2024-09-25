@@ -3,6 +3,7 @@ chain:
     chat_name: OpenAI
     model_name: gpt-4o
     cache: false
+  multi_query: true
 
 llm:
   # - name: gpt-4o
