@@ -128,9 +128,9 @@ class ChatConfig:
             splitter_name = retriever_params["splitter_name"]
             if splitter_name not in used_vector_stores:
                 used_vector_stores[splitter_name] = []
-            used_vector_stores[splitter_name].append(
-                self.vector_store_map[splitter_name][vector_store_name][embedding_name]
-            )
+            store = self.vector_store_map[splitter_name][vector_store_name][embedding_name]
+            if store not in used_vector_stores[splitter_name]:
+                used_vector_stores[splitter_name].append(store)
         return used_vector_stores
 
 
