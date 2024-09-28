@@ -1,9 +1,31 @@
 from flask import Blueprint, g, request, Response, jsonify, stream_with_context
+from langchain.callbacks.base import BaseCallbackHandler
+
 from app.web.hooks import login_required, load_model
 from app.web.db.models import Pdf, Conversation
 from app.chat import build_chat, ChatArgs
+from app.chat.config import chat_config
+from app.chat.logger import logger
 
 bp = Blueprint("conversation", __name__, url_prefix="/api/conversations")
+
+
+def _answer_with_page_numbers(answer, source_documents):
+    source_pages = []
+    for doc in source_documents:
+        if doc.metadata.get("page") not in source_pages:
+            source_pages.append(doc.metadata.get("page"))
+    answer += "\n" + "~" * 34 + "\n"
+    answer += "Source pages:"
+    for page in source_pages:
+        answer += f"\n{page}"
+    return answer
+
+
+class SourcePageHandler(BaseCallbackHandler):
+    def on_chain_end(self, outputs, **kwargs):
+        # logger.info(f">>>>>>on_chain_end: {outputs}")
+        pass
 
 
 @bp.route("/", methods=["GET"])
@@ -50,16 +72,24 @@ def create_message(conversation):
     try:
 
         if streaming:
+            config = {
+                "callbacks": [SourcePageHandler()],
+            }
             return Response(
-                stream_with_context(chat.stream(chat_input)),
+                stream_with_context(
+                    chat.stream(chat_input, config=config)
+                ),
                 mimetype="text/event-stream",
             )
         else:
-            # return jsonify({"role": "assistant", "content": chat.run(chat_input)})
+            response = chat.invoke(input={"question": chat_input})
+            answer = response["answer"]
+            if chat_config.return_page_numbers:
+                answer = _answer_with_page_numbers(answer, response.get("source_documents", []))
             return jsonify(
                 {
                     "role": "assistant",
-                    "content": chat.invoke(input={"question": chat_input})["answer"],
+                    "content": answer,
                 }
             )
 

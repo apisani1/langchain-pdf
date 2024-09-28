@@ -81,6 +81,7 @@ def build_chat(chat_args: ChatArgs):
         condense_question_llm=condense_question_llm,
         retriever=retriever,
         memory=memory,
+        return_source_documents=chat_config.return_page_numbers,
     ).with_config(
         {
             "run_id": chat_args.conversation_id,

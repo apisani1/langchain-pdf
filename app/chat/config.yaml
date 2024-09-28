@@ -4,6 +4,7 @@ chain:
     model_name: gpt-4o
     cache: false
   multi_query: false
+  return_page_numbers: true
 
 llm:
   # - name: gpt-4o

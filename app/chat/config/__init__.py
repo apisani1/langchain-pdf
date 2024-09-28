@@ -61,6 +61,11 @@ class ChatConfig:
         chain_config = self._yaml_data.get("chain", {})
         return chain_config.get("multi_query", False)
 
+    @cached_property
+    def return_page_numbers(self) -> bool:
+        chain_config = self._yaml_data.get("chain", {})
+        return chain_config.get("return_page_numbers", False)
+
     def _init_component(self, component: dict):
         env_variables = component.get("env", {})
         for key, value in env_variables.items():
@@ -128,7 +133,9 @@ class ChatConfig:
             splitter_name = retriever_params["splitter_name"]
             if splitter_name not in used_vector_stores:
                 used_vector_stores[splitter_name] = []
-            store = self.vector_store_map[splitter_name][vector_store_name][embedding_name]
+            store = self.vector_store_map[splitter_name][vector_store_name][
+                embedding_name
+            ]
             if store not in used_vector_stores[splitter_name]:
                 used_vector_stores[splitter_name].append(store)
         return used_vector_stores
