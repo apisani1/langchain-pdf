@@ -1,3 +1,5 @@
+import time
+
 from flask import Blueprint, g, request, Response, jsonify, stream_with_context
 from langchain.callbacks.base import BaseCallbackHandler
 
@@ -10,22 +12,47 @@ from app.chat.logger import logger
 bp = Blueprint("conversation", __name__, url_prefix="/api/conversations")
 
 
+class _CaptureResponseHandler(BaseCallbackHandler):
+    def __init__(self):
+        self.source_documents = []
+
+    def on_chain_end(self, outputs, **kwargs):
+        if "source_documents" in outputs:
+            self.source_documents = outputs["source_documents"]
+
+
 def _answer_with_page_numbers(answer, source_documents):
-    source_pages = []
-    for doc in source_documents:
-        if doc.metadata.get("page") not in source_pages:
-            source_pages.append(doc.metadata.get("page"))
-    answer += "\n" + "~" * 34 + "\n"
-    answer += "Source pages:"
-    for page in source_pages:
-        answer += f"\n{page}"
+    if source_documents:
+        source_pages = []
+        for doc in source_documents:
+            page_number = doc.metadata.get("page")
+            if page_number and page_number not in source_pages:
+                source_pages.append(page_number)
+        if source_pages:
+            answer += "\n" + "~" * 34 + "\n"
+            answer += "Source pages:"
+            for page_number in source_pages:
+                answer += f"\n{page_number}"
     return answer
 
 
-class SourcePageHandler(BaseCallbackHandler):
-    def on_chain_end(self, outputs, **kwargs):
-        # logger.info(f">>>>>>on_chain_end: {outputs}")
-        pass
+def _stream_with_page_numbers(chain, chat_input, timeout=5):
+    response_handler = _CaptureResponseHandler()
+    config = {
+        "callbacks": [response_handler],
+    }
+    for token in chain.stream(chat_input, config=config):
+        yield token
+    start_time = time.time()
+    while not response_handler.source_documents:
+        if time.time() - start_time > timeout:
+            logger.warning(
+                f"Timeout reached after {timeout} seconds while waiting for source documents"
+            )
+            break
+        logger.info("waiting for source documents")
+        time.sleep(0.1)
+    yield _answer_with_page_numbers("", response_handler.source_documents)
 
 
 @bp.route("/", methods=["GET"])
@@ -50,9 +77,7 @@ def create_conversation(pdf):
 def create_message(conversation):
     chat_input = request.json.get("input")
     streaming = request.args.get("stream", False)
-
     pdf = conversation.pdf
-
     chat_args = ChatArgs(
         conversation_id=conversation.id,
         pdf_id=pdf.id,
@@ -63,35 +88,28 @@ def create_message(conversation):
             "pdf_id": pdf.id,
         },
     )
-
     chat = build_chat(chat_args)
-
-    if not chat:
-        return "Chat not yet implemented!"
-
     try:
-
         if streaming:
-            config = {
-                "callbacks": [SourcePageHandler()],
-            }
             return Response(
                 stream_with_context(
-                    chat.stream(chat_input, config=config)
+                    _stream_with_page_numbers(chat, chat_input)
+                    if chat_config.return_page_numbers
+                    else chat.stream(chat_input)
                 ),
                 mimetype="text/event-stream",
             )
-        else:
-            response = chat.invoke(input={"question": chat_input})
-            answer = response["answer"]
-            if chat_config.return_page_numbers:
-                answer = _answer_with_page_numbers(answer, response.get("source_documents", []))
-            return jsonify(
-                {
-                    "role": "assistant",
-                    "content": answer,
-                }
+        response = chat.invoke(input={"question": chat_input})
+        answer = response["answer"]
+        if chat_config.return_page_numbers:
+            answer = _answer_with_page_numbers(
+                answer, response.get("source_documents", [])
             )
-
+        return jsonify(
+            {
+                "role": "assistant",
+                "content": answer,
+            }
+        )
     except Exception as e:
         return jsonify({"error": str(e)}), 500
