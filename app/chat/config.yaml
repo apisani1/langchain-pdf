@@ -70,12 +70,12 @@ embedding:
       cached: true
       cache_file_path: embeddings/embedding_cache.db
 
-  # - name: openai_large
-  #   model: OpenAI
-  #   params:
-  #     model_name: text-embedding-3-large
-  #     cached: true
-  #     cache_file_path: embeddings/embedding_cache.db
+  - name: openai_large
+    model: OpenAI
+    params:
+      model_name: text-embedding-3-large
+      cached: true
+      cache_file_path: embeddings/embedding_cache.db
 
   # - name: microsoft
   #   model: E5
@@ -128,7 +128,7 @@ vector_store:
   #   module: app.chat.vector_stores.singlestore
 
 retriever:
-  - name: chroma_similarity
+  - name: chroma_similarity_small
     builder: chroma_retriever_builder
     module: app.chat.vector_stores.chroma
     params:
@@ -138,15 +138,36 @@ retriever:
       search_kwargs:
         k: 5
 
-  - name: chroma_mmr
+  - name: chroma_similarity_large
     builder: chroma_retriever_builder
     module: app.chat.vector_stores.chroma
     params:
       splitter_name: recursive_character
-      embedding_name: openai_small
-      search_type: mmr
+      embedding_name: openai_large
+      search_type: similarity
       search_kwargs:
         k: 5
+
+  # - name: chroma_mmr
+  #   builder: chroma_retriever_builder
+  #   module: app.chat.vector_stores.chroma
+  #   params:
+  #     splitter_name: recursive_character
+  #     embedding_name: openai_small
+  #     search_type: mmr
+  #     search_kwargs:
+  #       k: 5
+
+  # - name: chroma_score_threshold
+    # builder: chroma_retriever_builder
+    # module: app.chat.vector_stores.chroma
+    # params:
+    #   splitter_name: recursive_character
+    #   embedding_name: openai_small
+    #   search_type: similarity_score_threshold
+    #   search_kwargs:
+    #     k: 5
+    #     score_threshold: 0.4
 
   # - name: chroma_large_recursive
   #   builder: chroma_retriever_builder

@@ -1,5 +1,4 @@
 from app.chat.config import chat_config
-from app.chat.logger import logger
 from langchainX.document import load_document
 
 
@@ -21,13 +20,16 @@ def create_embeddings_for_pdf(doc_id: str, file_path: str, doc_name: str = ""):
     """
     for text_splitter_name, text_splitter_builder in chat_config.splitter_map.items():
 
-        logger.info(f"***********Splitting docs with: {text_splitter_name}")
+        import os
+        from app.chat.logger import logger
+
+        if os.getenv("APP_ENV") == "development":
+            logger.info(f"***********Splitting docs with: {text_splitter_name}")
 
         docs = load_document(
             file_path,
             mode="paged",
             strategy="fast",
-            # chunk_it=True,
             text_splitter=text_splitter_builder(),
         )
 
@@ -43,7 +45,7 @@ def create_embeddings_for_pdf(doc_id: str, file_path: str, doc_name: str = ""):
             }
 
         for vector_store in chat_config.vector_stores[text_splitter_name]:
-
-            logger.info(f"***********Inserting docs in: {vector_store.index_name}")
+            if os.getenv("APP_ENV") == "development":
+                logger.info(f"***********Inserting docs in: {vector_store.index_name}")
 
             vector_store.add_documents(docs, id_key="chunk_id")

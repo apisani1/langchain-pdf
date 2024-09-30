@@ -4,6 +4,7 @@ from functools import (
     cached_property,
     partial,
 )
+from typing import Optional
 
 import yaml  # type: ignore
 from dotenv import (
@@ -52,6 +53,11 @@ class ChatConfig:
         return self._build_map("memory")
 
     @cached_property
+    def chain_type(self) -> str:
+        chain_config = self._yaml_data.get("chain", {})
+        return chain_config.get("chain_type", "stuff")
+
+    @cached_property
     def condense_question_llm_kwargs(self) -> dict:
         chain_config = self._yaml_data.get("chain", {})
         return chain_config.get("condense_question_llm", {})
@@ -65,6 +71,11 @@ class ChatConfig:
     def return_page_numbers(self) -> bool:
         chain_config = self._yaml_data.get("chain", {})
         return chain_config.get("return_page_numbers", False)
+
+    @cached_property
+    def max_tokens_limit(self) -> Optional[int]:
+        chain_config = self._yaml_data.get("chain", {})
+        return chain_config.get("max_tokens_limit", None)
 
     def _init_component(self, component: dict):
         env_variables = component.get("env", {})

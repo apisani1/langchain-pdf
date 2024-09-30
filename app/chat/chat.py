@@ -68,6 +68,10 @@ def build_chat(chat_args: ChatArgs):
         logger.info(">" * 50)
         logger.info(f"Chat initiatied with components:")
         logger.info(f"LLM: {llm_name}")
+        logger.info(f"Chat Type: {chat_config.chain_type}")
+        logger.info(f"Max Tokens Limit: {chat_config.max_tokens_limit}")
+        logger.info(f"Return Page Numbers: {chat_config.return_page_numbers}")
+        logger.info(f"Streaming: {chat_args.streaming}")
         logger.info(f"Retriever: {retriever_name}")
         logger.info(f"Multi Query: {chat_config.multi_query}")
         logger.info(f"Memory: {memory_name}")
@@ -81,6 +85,8 @@ def build_chat(chat_args: ChatArgs):
         condense_question_llm=condense_question_llm,
         retriever=retriever,
         memory=memory,
+        chain_type=chat_config.chain_type,
+        max_tokens_limit=chat_config.max_tokens_limit,
         return_source_documents=chat_config.return_page_numbers,
     ).with_config(
         {

@@ -50,7 +50,12 @@ def _stream_with_page_numbers(chain, chat_input, timeout=5):
                 f"Timeout reached after {timeout} seconds while waiting for source documents"
             )
             break
-        logger.info("waiting for source documents")
+
+        import os
+
+        if os.getenv("APP_ENV") == "development":
+            logger.info("waiting for source documents")
+
         time.sleep(0.1)
     yield _answer_with_page_numbers("", response_handler.source_documents)
 

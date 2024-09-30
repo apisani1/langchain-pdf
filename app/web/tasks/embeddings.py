@@ -1,16 +1,16 @@
-import os
-
 from celery import shared_task
 
 from app.web.db.models import Pdf
 from app.web.files import download
 from app.chat import create_embeddings_for_pdf
-from app.chat.logger import logger
 
 
 @shared_task()
 def process_document(pdf_id: int):
     pdf = Pdf.find_by(id=pdf_id)
+
+    import os
+    from app.chat.logger import logger
 
     if os.getenv("APP_ENV") == "development":
         logger.info(f"***********Processing document {pdf.id}: {pdf.name}")
