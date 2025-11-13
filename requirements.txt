@@ -136,7 +136,7 @@ packaging==23.2
 pandas==2.2.2
 parsimonious==0.10.0
 pdf2image==1.17.0
-pdfminer.six==20231228
+pdfminer.six==20251107
 pdfplumber==0.11.1
 pexpect==4.9.0
 pikepdf==9.0.0
